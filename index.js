@@ -1,6 +1,7 @@
 import express from "express";
 import connectDB from "./config/db.config.js";
 import userAuthRouter from "./modules/authentication/userauth/userauth.routes.js";
+import { errorHandlingMiddleware } from "./middlewares/errorHandling.js";
 
 const app = express();
 app.use(express.json());
@@ -26,3 +27,5 @@ connectDB()
   .catch((error) => {
     throw new Error(error);
   });
+
+app.use(errorHandlingMiddleware);
