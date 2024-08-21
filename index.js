@@ -1,13 +1,12 @@
 import express from "express";
 import connectDB from "./config/db.config.js";
+import userAuthRouter from "./modules/authentication/userauth/userauth.routes.js";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.json({ msg: "welcome to credulen api" });
-});
+app.use("/auth", userAuthRouter);
 
 const PORT = process.env.PORT;
 
