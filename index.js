@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/auth", userAuthRouter);
+app.use("/api/auth", userAuthRouter);
 
 const PORT = process.env.PORT;
 
