@@ -1,17 +1,24 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
 const connectDB = async () => {
-  const DATABASE_URI = process.env.DATABASE_URI;
-
   try {
-    await mongoose.connect(DATABASE_URI);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await mongoose.connect(
+      process.env.MONGO_URI,
+      // "mongodb+srv://firstCRUD:w3schools.com@crud.zgveazn.mongodb.net/myDatabase1",
+
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
+    console.log("MongoDB connected");
   } catch (error) {
-    throw new Error(error);
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
   }
 };
 
-export default connectDB;
+module.exports = connectDB;
