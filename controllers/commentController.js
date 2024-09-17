@@ -1,5 +1,6 @@
 // comment.controller.js
 const Comment = require("../models/commentModel");
+const Post = require("../models/postsModel");
 const { errorHandler } = require("../middlewares/errorHandling");
 
 const createComment = async (req, res, next) => {
@@ -13,6 +14,9 @@ const createComment = async (req, res, next) => {
     });
 
     await newComment.save();
+    await Post.findByIdAndUpdate(postId, {
+      $push: { comments: newComment._id },
+    });
     res.status(200).json(newComment);
   } catch (error) {
     next(error);
@@ -36,32 +40,36 @@ const likeComment = async (req, res, next) => {
     if (!comment) {
       return next(errorHandler(404, "Comment not found"));
     }
-    const userIndex = comment.likes.indexOf(req.user.id);
+
+    const userId = req.body.userId; // Extract userId from req.body
+    if (!userId) {
+      return next(errorHandler(400, "User ID is required"));
+    }
+
+    const userIdString = userId.toString(); // Convert to string for consistent comparison
+    const userIndex = comment.likes.findIndex(
+      (id) => id.toString() === userIdString
+    );
+
     if (userIndex === -1) {
-      comment.numberOfLikes += 1;
-      comment.likes.push(req.user.id);
+      comment.likes.push(userId);
     } else {
-      comment.numberOfLikes -= 1;
       comment.likes.splice(userIndex, 1);
     }
+
     await comment.save();
     res.status(200).json(comment);
   } catch (error) {
-    next(error);
+    next(errorHandler(500, "Server error while liking comment"));
   }
 };
-
 const editComment = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
       return next(errorHandler(404, "Comment not found"));
     }
-    if (comment.userId.toString() !== req.user.id && !req.user.isAdmin) {
-      return next(
-        errorHandler(403, "You are not allowed to edit this comment")
-      );
-    }
+
     const editedComment = await Comment.findByIdAndUpdate(
       req.params.commentId,
       {
@@ -80,11 +88,6 @@ const deleteComment = async (req, res, next) => {
     const comment = await Comment.findById(req.params.commentId);
     if (!comment) {
       return next(errorHandler(404, "Comment not found"));
-    }
-    if (comment.userId.toString() !== req.user.id && !req.user.isAdmin) {
-      return next(
-        errorHandler(403, "You are not allowed to delete this comment")
-      );
     }
     await Comment.findByIdAndDelete(req.params.commentId);
     res.status(200).json("Comment has been deleted");

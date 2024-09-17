@@ -205,23 +205,74 @@ const deletePost = async (req, res, next) => {
     next(error); // Pass error to the global error handler
   }
 };
+
 const likePost = async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const postId = req.params.postId;
+    const userId = req.body.userId; // Assuming the userId is sent in the request body
+
+    // Validate postId and userId
+    if (!postId || !userId) {
+      return next(errorHandler(400, "Post ID and User ID are required"));
+    }
+
+    const post = await Post.findById(postId);
     if (!post) {
       return next(errorHandler(404, "Post not found"));
     }
-    const userIndex = post.likes.indexOf(req.user.id);
-    if (userIndex === -1) {
-      post.likes.push(req.user.id);
-      post.likesCount = post.likes.length;
+
+    const userLikeIndex = post.likes.indexOf(userId);
+
+    if (userLikeIndex === -1) {
+      // User hasn't liked the post, so add the like
+      post.likes.push(userId);
     } else {
-      post.likes.splice(userIndex, 1);
-      post.likesCount = post.likes.length;
+      // User has already liked the post, so remove the like
+      post.likes.splice(userLikeIndex, 1);
     }
-    await post.save();
-    res.status(200).json(post);
+
+    // Update likesCount
+    post.likesCount = post.likes.length;
+
+    // Save the updated post
+    const updatedPost = await post.save();
+
+    res.status(200).json({
+      success: true,
+      likesCount: updatedPost.likesCount,
+      likes: updatedPost.likes,
+      message:
+        userLikeIndex === -1
+          ? "Post liked successfully"
+          : "Post unliked successfully",
+    });
   } catch (error) {
+    console.error("Error in likePost:", error);
+    next(error);
+  }
+};
+
+const getRelatedPosts = async (req, res, next) => {
+  try {
+    const { category, currentPostId } = req.query;
+
+    if (!category || !currentPostId) {
+      return next(
+        errorHandler(400, "Category and current post ID are required")
+      );
+    }
+
+    const relatedPosts = await Post.find({
+      category: category,
+      _id: { $ne: currentPostId }, // Exclude the current post
+    })
+      .select("title content image slug likes comments") // Select only necessary fields
+      .limit(4) // Limit to 4 related posts
+      .populate("authorId", "name image"); // Populate author details
+
+    res.status(200).json(relatedPosts);
+  } catch (error) {
+    console.error("Error in getRelatedPosts:", error);
     next(error);
   }
 };
@@ -234,4 +285,5 @@ module.exports = {
   getPosts,
   createPost,
   getPostBySlug,
+  getRelatedPosts,
 };

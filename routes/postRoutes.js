@@ -11,6 +11,8 @@ const {
   getPosts,
   getPostById,
   getPostBySlug,
+  likePost,
+  getRelatedPosts,
 } = require("../controllers/postController");
 
 // Configure multer storage
@@ -57,5 +59,7 @@ router.delete("/deletePost/:postId", deletePost);
 router.get("/getPosts", getPosts);
 router.get("/getPostById/:postId", getPostById);
 router.get("/getPostBySlug/:slug", getPostBySlug);
+router.post("/likePost/:postId", likePost);
+router.get("/related-posts", getRelatedPosts);
 
 module.exports = router;

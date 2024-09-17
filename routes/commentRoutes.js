@@ -18,7 +18,7 @@ router.post("/createComment", createComment);
 router.put("/editComment/:commentId", editComment);
 router.delete("/deleteComment/:commentId", deleteComment);
 router.get("/getPostComments/:postId", getPostComments);
-router.get("/likeComment/:commentId", likeComment);
+router.post("/likeComment/:commentId", likeComment);
 router.get("/getComments", getComments);
 
 module.exports = router;
