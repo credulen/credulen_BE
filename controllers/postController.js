@@ -266,7 +266,7 @@ const getRelatedPosts = async (req, res, next) => {
       category: category,
       _id: { $ne: currentPostId }, // Exclude the current post
     })
-      .select("title content image slug likes comments") // Select only necessary fields
+      .select("title content image slug likes comments createdAt") // Select only necessary fields
       .limit(4) // Limit to 4 related posts
       .populate("authorId", "name image"); // Populate author details
 

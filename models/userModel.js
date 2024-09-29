@@ -34,6 +34,8 @@ const UserSchema = new mongoose.Schema(
       type: String, // URL of the user's profile image
     },
     role: { type: String, enum: ["admin", "user"], default: "user" },
+    resetPasswordToken: { type: String }, // Field to store the reset token
+    resetPasswordExpires: { type: Date },
   },
   {
     timestamps: true,

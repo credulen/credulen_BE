@@ -16,6 +16,8 @@ const UserRoutes = require("./routes/userRoutes.js");
 const PostsRoutes = require("./routes/postRoutes.js");
 const authorRoutes = require("./routes/authorRoutes.js");
 const commentRoutes = require("./routes/commentRoutes.js");
+const speakerRoutes = require("./routes/speakerRoutes.js");
+const eventsRoutes = require("./routes/eventsRoutes.js");
 
 dotenv.config();
 connectDB();
@@ -75,6 +77,8 @@ app.use("/api", UserRoutes);
 app.use("/api", PostsRoutes);
 app.use("/api", authorRoutes);
 app.use("/api", commentRoutes);
+app.use("/api", speakerRoutes);
+app.use("/api", eventsRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

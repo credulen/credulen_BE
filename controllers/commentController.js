@@ -89,7 +89,15 @@ const deleteComment = async (req, res, next) => {
     if (!comment) {
       return next(errorHandler(404, "Comment not found"));
     }
+
+    // Remove the comment from the Comment collection
     await Comment.findByIdAndDelete(req.params.commentId);
+
+    // Remove the comment reference from the associated post
+    await Post.findByIdAndUpdate(comment.postId, {
+      $pull: { comments: comment._id },
+    });
+
     res.status(200).json("Comment has been deleted");
   } catch (error) {
     next(error);
