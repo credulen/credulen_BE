@@ -63,6 +63,7 @@ const likeComment = async (req, res, next) => {
     next(errorHandler(500, "Server error while liking comment"));
   }
 };
+
 const editComment = async (req, res, next) => {
   try {
     const comment = await Comment.findById(req.params.commentId);

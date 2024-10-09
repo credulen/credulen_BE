@@ -18,6 +18,7 @@ const authorRoutes = require("./routes/authorRoutes.js");
 const commentRoutes = require("./routes/commentRoutes.js");
 const speakerRoutes = require("./routes/speakerRoutes.js");
 const eventsRoutes = require("./routes/eventsRoutes.js");
+const solutionRoutes = require("./routes/solutionRoutes.js");
 
 dotenv.config();
 connectDB();
@@ -79,6 +80,7 @@ app.use("/api", authorRoutes);
 app.use("/api", commentRoutes);
 app.use("/api", speakerRoutes);
 app.use("/api", eventsRoutes);
+app.use("/api", solutionRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

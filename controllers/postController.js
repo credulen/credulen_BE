@@ -209,9 +209,8 @@ const deletePost = async (req, res, next) => {
 const likePost = async (req, res, next) => {
   try {
     const postId = req.params.postId;
-    const userId = req.body.userId; // Assuming the userId is sent in the request body
+    const userId = req.body.userId;
 
-    // Validate postId and userId
     if (!postId || !userId) {
       return next(errorHandler(400, "Post ID and User ID are required"));
     }
@@ -222,13 +221,16 @@ const likePost = async (req, res, next) => {
     }
 
     const userLikeIndex = post.likes.indexOf(userId);
+    let isLiked = false;
 
     if (userLikeIndex === -1) {
       // User hasn't liked the post, so add the like
       post.likes.push(userId);
+      isLiked = true;
     } else {
       // User has already liked the post, so remove the like
       post.likes.splice(userLikeIndex, 1);
+      isLiked = false;
     }
 
     // Update likesCount
@@ -240,11 +242,10 @@ const likePost = async (req, res, next) => {
     res.status(200).json({
       success: true,
       likesCount: updatedPost.likesCount,
-      likes: updatedPost.likes,
-      message:
-        userLikeIndex === -1
-          ? "Post liked successfully"
-          : "Post unliked successfully",
+      isLiked: isLiked,
+      message: isLiked
+        ? "Post liked successfully"
+        : "Post unliked successfully",
     });
   } catch (error) {
     console.error("Error in likePost:", error);
