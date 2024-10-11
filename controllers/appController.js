@@ -193,6 +193,144 @@ const registerAdmin = async (req, res) => {
   }
 };
 
+// const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     const user = await UserModel.findOne({ email });
+//     if (!user || !(await bcrypt.compare(password, user.password))) {
+//       return res.status(400).json({ message: "Invalid credentials" });
+//     }
+
+//     const userData = {
+//       _id: user._id,
+//       username: user.username,
+//       email: user.email,
+//       role: user.role,
+//     };
+
+//     if (user.role === "admin") {
+//       const otp = otpGenerator.generate(6, {
+//         upperCase: false,
+//         specialChars: false,
+//       });
+//       user.otp = otp;
+//       user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+//       await user.save();
+
+//       await sendOTP(email, otp);
+
+//       return res.status(200).json({
+//         message: "OTP sent to your email",
+//         requireOTP: true,
+//         user: userData,
+//       });
+//     }
+
+//     // For non-admin users, proceed with normal login
+//     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "30d",
+//     });
+//     const refreshToken = jwt.sign(
+//       { _id: user._id },
+//       process.env.JWT_REFRESH_SECRET,
+//       { expiresIn: "30d" }
+//     );
+
+//     user.refreshTokens.push({
+//       token: refreshToken,
+//       createdAt: new Date(),
+//       expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+//     });
+//     await user.save();
+
+//     res.cookie("refreshToken", refreshToken, {
+//       httpOnly: true,
+//       sameSite: "None",
+//       secure: true,
+//     });
+
+//     return res.status(200).json({
+//       token,
+//       refreshToken,
+//       user: userData,
+//     });
+//   } catch (error) {
+//     console.error("Login Error:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
+
+// const verifAdminyOTP = async (req, res) => {
+//   const { userId, otp } = req.body;
+//   console.log("Received userId:", userId, "OTP:", otp);
+
+//   try {
+//     const user = await UserModel.findOne({ _id: userId, role: "admin" });
+//     if (!user) return res.status(401).json({ message: "Admin not found" });
+
+//     console.log("Stored OTP:", user.otp);
+//     console.log("OTP Expiry Time:", user.otpExpiresAt);
+
+//     if (!user.otp || !user.otpExpiresAt) {
+//       return res.status(400).json({ message: "No OTP found or OTP expired" });
+//     }
+
+//     if (user.otp !== otp) {
+//       return res.status(400).json({ message: "Invalid OTP" });
+//     }
+
+//     if (Date.now() > user.otpExpiresAt) {
+//       return res.status(400).json({ message: "OTP has expired" });
+//     }
+
+//     if (user.otp !== otp || Date.now() > user.otpExpiresAt) {
+//       return res.status(400).json({ message: "Invalid or expired OTP" });
+//     }
+
+//     // Generate tokens
+//     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "30d",
+//     });
+//     const refreshToken = jwt.sign(
+//       { _id: user._id },
+//       process.env.JWT_REFRESH_SECRET,
+//       { expiresIn: "30d" }
+//     );
+
+//     // Set the refreshToken in an HTTP-only cookie
+//     res.cookie("refreshToken", refreshToken, {
+//       httpOnly: true,
+//       sameSite: "None",
+//       secure: true,
+//     });
+
+//     // Clear OTP
+//     user.otp = undefined;
+//     user.otpExpiresAt = undefined;
+//     await user.save();
+
+//     res.status(200).json({
+//       token,
+//       refreshToken,
+//       user: {
+//         _id: user._id,
+//         email: user.email,
+//         username: user.username,
+//         role: user.role,
+//       },
+//     });
+
+//     // LOGS
+//     console.log("Stored OTP:", user.otp);
+//     console.log("Received OTP:", otp);
+//     console.log("OTP Expiry Time:", new Date(user.otpExpiresAt));
+//   } catch (error) {
+//     console.error("Error during OTP verification:", error);
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
 const login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -263,29 +401,17 @@ const login = async (req, res) => {
 
 const verifAdminyOTP = async (req, res) => {
   const { userId, otp } = req.body;
-  console.log("Received userId:", userId, "OTP:", otp);
 
   try {
     const user = await UserModel.findOne({ _id: userId, role: "admin" });
     if (!user) return res.status(401).json({ message: "Admin not found" });
 
-    console.log("Stored OTP:", user.otp);
-    console.log("OTP Expiry Time:", user.otpExpiresAt);
-
-    if (!user.otp || !user.otpExpiresAt) {
-      return res.status(400).json({ message: "No OTP found or OTP expired" });
+    if (!user.otp || !user.otpExpiresAt || Date.now() > user.otpExpiresAt) {
+      return res.status(400).json({ message: "OTP has expired or is invalid" });
     }
 
     if (user.otp !== otp) {
       return res.status(400).json({ message: "Invalid OTP" });
-    }
-
-    if (Date.now() > user.otpExpiresAt) {
-      return res.status(400).json({ message: "OTP has expired" });
-    }
-
-    if (user.otp !== otp || Date.now() > user.otpExpiresAt) {
-      return res.status(400).json({ message: "Invalid or expired OTP" });
     }
 
     // Generate tokens
@@ -320,17 +446,11 @@ const verifAdminyOTP = async (req, res) => {
         role: user.role,
       },
     });
-
-    // LOGS
-    console.log("Stored OTP:", user.otp);
-    console.log("Received OTP:", otp);
-    console.log("OTP Expiry Time:", new Date(user.otpExpiresAt));
   } catch (error) {
     console.error("Error during OTP verification:", error);
     res.status(500).json({ message: error.message });
   }
 };
-
 const refreshToken = async (req, res) => {
   const { refreshToken } = req.cookies; // Retrieve refresh token from cookies
 

@@ -1,5 +1,6 @@
 const Solution = require("../models/solutionModel.js");
 const SolutionForm = require("../models/solutionFormModel.js");
+const NewsletterSubscription = require("../models/NewsLetterModel.js");
 const { errorHandler } = require("../middlewares/errorHandling.js");
 
 const createSolution = async (req, res, next) => {
@@ -170,6 +171,27 @@ const submitSolutionForm = async (req, res) => {
   }
 };
 
+const NewLetterSubscribe = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required." });
+  }
+
+  try {
+    const subscription = new NewsletterSubscription({ email });
+    await subscription.save();
+    res.status(201).json({ message: "Subscription successful!" });
+  } catch (error) {
+    if (error.code === 11000) {
+      // Duplicate email
+      return res.status(409).json({ message: "Email already subscribed." });
+    }
+    console.error(error);
+    res.status(500).json({ message: "An error occurred. Please try again." });
+  }
+};
+
 module.exports = {
   createSolution,
   getAllSolutions,
@@ -177,4 +199,5 @@ module.exports = {
   updateSolution,
   deleteSolution,
   submitSolutionForm,
+  NewLetterSubscribe,
 };
