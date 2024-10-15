@@ -4,7 +4,7 @@ const {
   login,
   registerUser,
   registerAdmin,
-  verifAdminyOTP,
+  verifyAdminOTP,
   forgotPassword,
   resetPassword,
 } = require("../controllers/appController.js");
@@ -18,6 +18,6 @@ router.route("/registerMail").post(registerMail);
 router.route("/login").post(login);
 router.route("/forgot-password").post(forgotPassword);
 router.post("/reset-password/:token", resetPassword);
-router.post("/verifAdminyOTP", verifAdminyOTP);
+router.post("/verifAdminyOTP", verifyAdminOTP);
 
 module.exports = router;

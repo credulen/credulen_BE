@@ -7,6 +7,7 @@ const solutionFormSchema = new mongoose.Schema({
   employmentStatus: { type: String, required: true },
   jobTitle: { type: String },
   selectedSolution: { type: String, required: true },
+  slug: { type: String, required: true },
   submittedAt: { type: Date, default: Date.now },
 });
 

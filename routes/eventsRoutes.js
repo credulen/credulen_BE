@@ -11,7 +11,8 @@ const {
   getEventBySlug,
   updateEvent,
   deleteEvent,
-  registerForEvent,
+  registerEvent,
+  registerForSolution,
   getRelatedEvents,
 } = require("../controllers/eventsController");
 
@@ -56,7 +57,8 @@ router.get("/getEventById/:eventId", getEventById);
 router.get("/getEventBySlug/:slug", getEventBySlug);
 router.put("/updateEvent/:eventId", upload.single("image"), updateEvent);
 router.delete("/deleteEvent/:eventId", deleteEvent);
-router.post("/registerForEvent/:eventId", registerForEvent);
+router.post("/register-event/", registerEvent);
+router.post("/registerForSolution", registerForSolution);
 router.get("/related-events", getRelatedEvents);
 
 module.exports = router;

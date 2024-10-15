@@ -11,6 +11,8 @@ const {
   updateSolution,
   deleteSolution,
   submitSolutionForm,
+  getSolutionForms,
+  deleteSolutionsByType,
   NewLetterSubscribe,
 } = require("../controllers/solutionController");
 
@@ -58,6 +60,8 @@ router.delete("/deleteSolution/:solutionId", deleteSolution);
 router.get("/getAllSolutions", getAllSolutions);
 router.get("/getSolutionBySlug/:slug", getSolutionBySlug);
 router.post("/submitSolutionForm", submitSolutionForm);
+router.get("/getSolutionForms", getSolutionForms);
+router.delete("/deleteSolutionsByType", deleteSolutionsByType);
 router.post("/newsletter-signup", NewLetterSubscribe);
 
 module.exports = router;

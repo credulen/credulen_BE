@@ -1,6 +1,8 @@
 const Event = require("../models/eventsModel");
 const Speaker = require("../models/speakerModel"); // Assuming you have a Speaker model
 const { errorHandler } = require("../middlewares/errorHandling");
+const EventRegistration = require("../models/registerEventModel");
+const SolutionForm = require("../models/solutionFormModel");
 
 // Create a new event
 const createEvent = async (req, res, next) => {
@@ -226,44 +228,85 @@ const deleteEvent = async (req, res, next) => {
 };
 
 // Register for an event
-const registerForEvent = async (req, res, next) => {
+// const registerForEvent = async (req, res, next) => {
+//   try {
+//     const { eventId } = req.params;
+//     const { userId } = req.body;
+
+//     if (!eventId || !userId) {
+//       return next(errorHandler(400, "Event ID and User ID are required"));
+//     }
+
+//     const event = await Event.findById(eventId);
+//     if (!event) {
+//       return next(errorHandler(404, "Event not found"));
+//     }
+
+//     const attendeeIndex = event.attendees.indexOf(userId);
+
+//     if (attendeeIndex === -1) {
+//       event.attendees.push(userId);
+//     } else {
+//       return res
+//         .status(400)
+//         .json({ message: "User already registered for this event" });
+//     }
+
+//     const updatedEvent = await event.save();
+
+//     res.status(200).json({
+//       success: true,
+//       attendeesCount: updatedEvent.attendees.length,
+//       message: "Successfully registered for the event",
+//     });
+//   } catch (error) {
+//     console.error("Error in registerForEvent:", error);
+//     next(error);
+//   }
+// };
+const registerForSolution = async (req, res, next) => {
   try {
-    const { eventId } = req.params;
-    const { userId } = req.body;
+    const {
+      fullName,
+      phoneNumber,
+      email,
+      employmentStatus,
+      jobTitle,
+      selectedSolution,
+      slug,
+    } = req.body;
 
-    if (!eventId || !userId) {
-      return next(errorHandler(400, "Event ID and User ID are required"));
-    }
-
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return next(errorHandler(404, "Event not found"));
-    }
-
-    const attendeeIndex = event.attendees.indexOf(userId);
-
-    if (attendeeIndex === -1) {
-      event.attendees.push(userId);
-    } else {
-      return res
-        .status(400)
-        .json({ message: "User already registered for this event" });
-    }
-
-    const updatedEvent = await event.save();
-
-    res.status(200).json({
-      success: true,
-      attendeesCount: updatedEvent.attendees.length,
-      message: "Successfully registered for the event",
+    // Check for existing submission
+    const existingSubmission = await SolutionForm.findOne({
+      email,
+      slug,
     });
+    if (existingSubmission) {
+      return res.status(400).json({
+        message: "You have already submitted a form for this solution.",
+      });
+    }
+
+    const newSubmission = new SolutionForm({
+      fullName,
+      phoneNumber,
+      email,
+      employmentStatus,
+      jobTitle,
+      selectedSolution,
+      slug,
+    });
+
+    await newSubmission.save();
+
+    res.status(201).json({ message: "Form submitted successfully" });
   } catch (error) {
-    console.error("Error in registerForEvent:", error);
-    next(error);
+    console.error("Error submitting solution form:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while submitting the form" });
   }
 };
-
- 
 
 const getRelatedEvents = async (req, res, next) => {
   try {
@@ -298,6 +341,51 @@ const getRelatedEvents = async (req, res, next) => {
   }
 };
 
+const registerEvent = async (req, res) => {
+  try {
+    const {
+      fullName,
+      email,
+      company,
+      reason,
+      eventTitle,
+      eventCategory,
+      slug,
+    } = req.body;
+
+    const newRegistration = new EventRegistration({
+      fullName,
+      email,
+      company,
+      reason,
+      eventTitle,
+      eventCategory,
+      slug,
+    });
+
+    const existingRegistration = await EventRegistration.findOne({
+      email,
+      slug,
+    });
+
+    // Check for existing registration
+    if (existingRegistration) {
+      return res
+        .status(400)
+        .json({ message: "You are already registered for this event." });
+    }
+
+    await newRegistration.save();
+
+    res.status(201).json({ message: "Registration successful" });
+  } catch (error) {
+    console.error("Error registering for event:", error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while registering for the event" });
+  }
+};
+
 module.exports = {
   createEvent,
   getEvents,
@@ -305,6 +393,7 @@ module.exports = {
   getEventBySlug,
   updateEvent,
   deleteEvent,
-  registerForEvent,
+  registerForSolution,
   getRelatedEvents,
+  registerEvent,
 };
