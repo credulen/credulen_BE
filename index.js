@@ -46,7 +46,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://credulen-branch2-opal.vercel.app/",
+      "https://credulen-branch2-opal.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -54,18 +54,6 @@ app.use(
   })
 );
 app.use(errorHandlingMiddleware);
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "your_session_secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    },
-  })
-);
 
 const cookieOptions = {
   httpOnly: true,
