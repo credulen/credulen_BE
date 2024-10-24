@@ -18,6 +18,6 @@ router.route("/registerMail").post(registerMail);
 router.route("/login").post(login);
 router.route("/forgot-password").post(forgotPassword);
 router.post("/reset-password/:token", resetPassword);
-router.post("/verifAdminyOTP", verifyAdminOTP);
+router.post("/verifyAdminOTP", verifyAdminOTP);
 
 module.exports = router;

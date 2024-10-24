@@ -12,8 +12,10 @@ const {
   updateEvent,
   deleteEvent,
   registerEvent,
+  getAllRegisteredEvents,
   registerForSolution,
   getRelatedEvents,
+  handleDeleteByEvent,
 } = require("../controllers/eventsController");
 
 // Configure multer storage
@@ -60,5 +62,7 @@ router.delete("/deleteEvent/:eventId", deleteEvent);
 router.post("/register-event/", registerEvent);
 router.post("/registerForSolution", registerForSolution);
 router.get("/related-events", getRelatedEvents);
+router.get("/getAllRegisteredEvents", getAllRegisteredEvents);
+router.delete("/handleDeleteByEvent", handleDeleteByEvent);
 
 module.exports = router;

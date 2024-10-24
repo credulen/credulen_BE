@@ -227,43 +227,6 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
-// Register for an event
-// const registerForEvent = async (req, res, next) => {
-//   try {
-//     const { eventId } = req.params;
-//     const { userId } = req.body;
-
-//     if (!eventId || !userId) {
-//       return next(errorHandler(400, "Event ID and User ID are required"));
-//     }
-
-//     const event = await Event.findById(eventId);
-//     if (!event) {
-//       return next(errorHandler(404, "Event not found"));
-//     }
-
-//     const attendeeIndex = event.attendees.indexOf(userId);
-
-//     if (attendeeIndex === -1) {
-//       event.attendees.push(userId);
-//     } else {
-//       return res
-//         .status(400)
-//         .json({ message: "User already registered for this event" });
-//     }
-
-//     const updatedEvent = await event.save();
-
-//     res.status(200).json({
-//       success: true,
-//       attendeesCount: updatedEvent.attendees.length,
-//       message: "Successfully registered for the event",
-//     });
-//   } catch (error) {
-//     console.error("Error in registerForEvent:", error);
-//     next(error);
-//   }
-// };
 const registerForSolution = async (req, res, next) => {
   try {
     const {
@@ -385,6 +348,82 @@ const registerEvent = async (req, res) => {
       .json({ message: "An error occurred while registering for the event" });
   }
 };
+const getAllRegisteredEvents = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex, 10) || 0;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const { eventTitle } = req.query;
+
+    // Create filter object
+    const filter = {};
+    if (eventTitle) {
+      filter.eventTitle = eventTitle;
+    }
+
+    // Apply filter to queries
+    const registrations = await EventRegistration.find(filter)
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .skip(startIndex)
+      .limit(limit);
+
+    // Count should also respect the filter
+    const totalRegistrations = await EventRegistration.countDocuments(filter);
+
+    // Get total registrations for the filtered event
+    const filteredCount = eventTitle
+      ? await EventRegistration.countDocuments({ eventTitle })
+      : totalRegistrations;
+
+    res.status(200).json({
+      registrations,
+      totalRegistrations: filteredCount,
+      hasMore: registrations.length === limit,
+    });
+  } catch (error) {
+    console.error("Error getting registered events:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching registered events",
+    });
+  }
+};
+const handleDeleteByEvent = async (req, res, next) => {
+  try {
+    const { eventTitle } = req.body;
+
+    // Validate request body
+    if (!eventTitle) {
+      return res.status(400).json({
+        success: false,
+        message: "Event title is required",
+      });
+    }
+
+    // Find and delete all registrations for the specified event
+    const result = await EventRegistration.deleteMany({ eventTitle });
+
+    // Check if any documents were deleted
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No registrations found for the specified event",
+      });
+    }
+
+    // Return success response with number of deleted registrations
+    res.status(200).json({
+      success: true,
+      message: `Successfully deleted ${result.deletedCount} registration(s) for event: ${eventTitle}`,
+      deletedCount: result.deletedCount,
+    });
+  } catch (error) {
+    console.error("Error deleting event registrations:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while deleting event registrations",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   createEvent,
@@ -396,4 +435,6 @@ module.exports = {
   registerForSolution,
   getRelatedEvents,
   registerEvent,
+  getAllRegisteredEvents,
+  handleDeleteByEvent,
 };
