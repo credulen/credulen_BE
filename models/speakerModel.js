@@ -1,4 +1,3 @@
-// models/speakerModel.js
 const mongoose = require("mongoose");
 
 const speakerSchema = new mongoose.Schema({
