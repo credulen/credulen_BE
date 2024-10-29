@@ -2,6 +2,7 @@ const Solution = require("../models/solutionModel.js");
 const SolutionForm = require("../models/solutionFormModel.js");
 const NewsletterSubscription = require("../models/NewsLetterModel.js");
 const { errorHandler } = require("../middlewares/errorHandling.js");
+const moment = require("moment");
 
 const createSolution = async (req, res, next) => {
   try {
@@ -87,48 +88,7 @@ const getAllSolutions = async (req, res, next) => {
     next(error);
   }
 };
-// const getSolutionForms = async (req, res, next) => {
-//   try {
-//     const startIndex = parseInt(req.query.startIndex, 10) || 0;
-//     const limit = parseInt(req.query.limit, 10) || 9;
-//     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
-//     const query = {
-//       ...(req.query.category && { category: req.query.category }),
-//       ...(req.query.searchTerm && {
-//         $or: [
-//           { title: { $regex: req.query.searchTerm, $options: "i" } },
-//           { content: { $regex: req.query.searchTerm, $options: "i" } },
-//         ],
-//       }),
-//     };
-
-//     const solutions = await SolutionForm.find(query)
-//       .sort({ updatedAt: sortDirection })
-//       .skip(startIndex)
-//       .limit(limit);
-
-//     const totalSolutions = await Solution.countDocuments(query);
-
-//     const now = new Date();
-//     const oneMonthAgo = new Date(
-//       now.getFullYear(),
-//       now.getMonth() - 1,
-//       now.getDate()
-//     );
-//     const lastMonthSolutions = await Solution.countDocuments({
-//       createdAt: { $gte: oneMonthAgo },
-//     });
-
-//     res.status(200).json({
-//       solutions,
-//       totalSolutions,
-//       lastMonthSolutions,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 const getSolutionForms = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex, 10) || 0;
@@ -315,6 +275,100 @@ const NewLetterSubscribe = async (req, res) => {
   }
 };
 
+const getNewsletterSubscribers = async (req, res) => {
+  try {
+    const today = new Date();
+
+    // Get start dates for different periods
+    const weekStart = moment().subtract(7, "days").toDate();
+    const monthStart = moment().subtract(30, "days").toDate();
+    const prevMonthStart = moment().subtract(60, "days").toDate();
+
+    // Get total subscribers
+    const totalSubscribers = await NewsletterSubscription.countDocuments();
+
+    // Get weekly subscribers
+    const weeklySubscribers = await NewsletterSubscription.countDocuments({
+      createdAt: { $gte: weekStart },
+    });
+
+    // Get current month subscribers
+    const monthlySubscribers = await NewsletterSubscription.countDocuments({
+      createdAt: { $gte: monthStart },
+    });
+
+    // Get previous month subscribers for comparison
+    const prevMonthSubscribers = await NewsletterSubscription.countDocuments({
+      createdAt: {
+        $gte: prevMonthStart,
+        $lt: monthStart,
+      },
+    });
+
+    // Get weekly breakdown
+    const weeklyBreakdown = await NewsletterSubscription.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: weekStart },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    // Get monthly breakdown
+    const monthlyBreakdown = await NewsletterSubscription.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: monthStart },
+        },
+      },
+      {
+        $group: {
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $sort: { _id: 1 },
+      },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalSubscribers,
+        weeklySubscribers,
+        monthlySubscribers,
+        prevMonthSubscribers,
+        weeklyBreakdown,
+        monthlyBreakdown,
+        growthRate: {
+          monthly: (
+            ((monthlySubscribers - prevMonthSubscribers) /
+              prevMonthSubscribers) *
+            100
+          ).toFixed(2),
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching newsletter subscribers:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching subscriber data",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createSolution,
   getAllSolutions,
@@ -325,4 +379,5 @@ module.exports = {
   getSolutionForms,
   deleteSolutionsByType,
   NewLetterSubscribe,
+  getNewsletterSubscribers,
 };
