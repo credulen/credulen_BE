@@ -14,6 +14,16 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
     },
+
+    googleId: {
+      type: String,
+    },
+    verifiedEmail: {
+      type: Boolean,
+    },
+    picture: {
+      type: String,
+    },
     uniqueId: {
       type: String,
       default: uuidv4,

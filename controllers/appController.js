@@ -379,6 +379,108 @@ const resetPassword = async (req, res) => {
   }
 };
 
+// const handleGoogleLogin = async (req, res) => {
+//   const { credential } = req.body;
+
+//   try {
+//     const decoded = jwt.decode(credential);
+
+//     if (!decoded) {
+//       return res.status(400).json({ message: "Invalid Google token" });
+//     }
+
+//     let user = await UserModel.findOne({ email: decoded.email });
+
+//     if (!user) {
+//       // Create new user if doesn't exist
+//       user = new UserModel({
+//         email: decoded.email,
+//         username: decoded.name,
+//         googleId: decoded.sub,
+//         picture: decoded.picture,
+//         role: "user",
+//       });
+//       await user.save();
+//     }
+
+//     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "30d",
+//     });
+
+//     res.status(200).json({
+//       token,
+//       user: {
+//         _id: user._id,
+//         email: user.email,
+//         username: user.username,
+//         role: user.role,
+//         picture: user.picture,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Google login error:", error);
+//     res.status(500).json({ message: "Error processing Google login" });
+//   }
+// };
+const handleGoogleLogin = async (req, res) => {
+  const { credential } = req.body;
+
+  try {
+    const decoded = jwt.decode(credential);
+
+    if (!decoded) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Google token",
+      });
+    }
+
+    let user = await UserModel.findOne({ email: decoded.email });
+
+    if (user && user.role === "admin") {
+      return res.status(403).json({
+        success: false,
+        message:
+          "Admin accounts cannot login through Google authentication. Please use the standard login route.",
+      });
+    }
+
+    if (!user) {
+      // Create new user if doesn't exist
+      user = new UserModel({
+        email: decoded.email,
+        username: decoded.name,
+        googleId: decoded.sub,
+        picture: decoded.picture,
+        role: "user",
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+
+    res.status(200).json({
+      success: true,
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        picture: user.picture,
+      },
+    });
+  } catch (error) {
+    console.error("Google login error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error processing Google login",
+    });
+  }
+};
+
 module.exports = {
   registerUser,
   registerAdmin,
@@ -386,5 +488,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyAdminOTP,
+  handleGoogleLogin,
   logout,
 };

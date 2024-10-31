@@ -11,6 +11,7 @@ const createEvent = async (req, res, next) => {
       title,
       eventType,
       description,
+      videoUrl,
       category,
       date,
       venue,
@@ -54,6 +55,7 @@ const createEvent = async (req, res, next) => {
       eventType,
       content: description,
       category,
+      videoUrl,
       date,
       venue,
       organizer,
@@ -152,8 +154,16 @@ const getEventBySlug = async (req, res, next) => {
 const updateEvent = async (req, res, next) => {
   try {
     const { eventId } = req.params;
-    const { title, eventType, description, category, date, venue, speakers } =
-      req.body;
+    const {
+      title,
+      eventType,
+      description,
+      videoUrl,
+      category,
+      date,
+      venue,
+      speakers,
+    } = req.body;
 
     const event = await Event.findById(eventId);
     if (!event) {
@@ -196,6 +206,7 @@ const updateEvent = async (req, res, next) => {
     event.eventType = eventType;
     event.content = description; // Changed from 'content' to 'description' to match createEvent
     event.category = category;
+    event.videoUrl = videoUrl;
     event.date = date;
     event.venue = venue;
     event.image = imageUrl;
@@ -290,7 +301,7 @@ const getRelatedEvents = async (req, res, next) => {
       $or: [{ category: category }, { eventType: category }],
       _id: { $ne: currentEventId },
     })
-      .select("title content image slug eventType date venue")
+      .select("title content image slug eventType date venue videoUrl")
       .limit(4)
       .populate("organizer", "name image");
 
