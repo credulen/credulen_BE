@@ -60,7 +60,6 @@ const getPosts = async (req, res, next) => {
   try {
     // Extract query parameters with default values
     const startIndex = parseInt(req.query.startIndex, 10) || 0;
-    const limit = parseInt(req.query.limit, 10) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     // Build query filter based on provided query parameters
@@ -80,7 +79,6 @@ const getPosts = async (req, res, next) => {
     const posts = await Post.find(query)
       .sort({ updatedAt: sortDirection })
       .skip(startIndex)
-      .limit(limit)
       .populate("authorId", "name image bio"); // Populate author details
 
     // Get total number of posts
