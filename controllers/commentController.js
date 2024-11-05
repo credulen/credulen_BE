@@ -27,7 +27,7 @@ const getPostComments = async (req, res, next) => {
   try {
     const comments = await Comment.find({ postId: req.params.postId })
       .sort({ createdAt: -1 })
-      .populate("userId", "username avatar image");
+      .populate("userId", "username avatar image picture");
     res.status(200).json(comments);
   } catch (error) {
     next(error);
@@ -114,7 +114,7 @@ const getComments = async (req, res, next) => {
       .sort({ createdAt: sortDirection })
       .skip(startIndex)
       .limit(limit)
-      .populate("userId", "username avatar image")
+      .populate("userId", "username avatar image picture")
       .populate("postId", "title");
     const totalComments = await Comment.countDocuments();
     const now = new Date();

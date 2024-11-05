@@ -3,6 +3,10 @@ const SolutionForm = require("../models/solutionFormModel.js");
 const NewsletterSubscription = require("../models/NewsLetterModel.js");
 const { errorHandler } = require("../middlewares/errorHandling.js");
 const moment = require("moment");
+const {
+  sendRegSuccessMail1,
+  sendRegSuccessMail2,
+} = require("../config/regSucessMail.js");
 
 const createSolution = async (req, res, next) => {
   try {
@@ -369,6 +373,189 @@ const getNewsletterSubscribers = async (req, res) => {
   }
 };
 
+// const registerForSolution = async (req, res, next) => {
+//   try {
+//     const {
+//       fullName,
+//       phoneNumber,
+//       email,
+//       employmentStatus,
+//       jobTitle,
+//       selectedSolution,
+//       slug,
+//       solutionCategory,
+//       companyName,
+//       companyIndustry,
+//       companySize,
+//       country,
+//       firstName,
+//       lastName,
+//       solutionType,
+//     } = req.body;
+
+//     // Check for existing submission
+//     const existingSubmission = await SolutionForm.findOne({
+//       email,
+//       slug,
+//     });
+//     if (existingSubmission) {
+//       return res.status(400).json({
+//         message: "You have already submitted a form for this solution.",
+//       });
+//     }
+
+//     const newSubmission = new SolutionForm({
+//       fullName,
+//       phoneNumber,
+//       email,
+//       employmentStatus,
+//       jobTitle,
+//       selectedSolution,
+//       slug,
+//       solutionCategory,
+//       companyName,
+//       companyIndustry,
+//       companySize,
+//       country,
+//       firstName,
+//       lastName,
+//       solutionType,
+//     });
+
+//     await newSubmission.save();
+
+//     try {
+//       await sendRegistrationEmail({
+//         fullName,
+//         phoneNumber,
+//         email,
+//         employmentStatus,
+//         jobTitle,
+//         selectedSolution,
+//         slug,
+//         solutionCategory,
+//         companyName,
+//         companyIndustry,
+//         companySize,
+//         country,
+//         firstName,
+//         lastName,
+//         solutionType,
+//       });
+//     } catch (emailError) {
+//       console.error("Failed to send confirmation email:", emailError);
+//     }
+
+//     res.status(201).json({ message: "Form submitted successfully" });
+//   } catch (error) {
+//     console.error("Error submitting solution form:", error);
+//     res
+//       .status(500)
+//       .json({ message: "An error occurred while submitting the form" });
+//   }
+// };
+
+const registerForSolution = async (req, res, next) => {
+  try {
+    const {
+      fullName,
+      phoneNumber,
+      email,
+      employmentStatus,
+      jobTitle,
+      selectedSolution,
+      slug,
+      solutionCategory,
+      companyName,
+      companyIndustry,
+      companySize,
+      country,
+      firstName,
+      lastName,
+      solutionType,
+    } = req.body;
+
+    // Check for existing submission
+    const existingSubmission = await SolutionForm.findOne({
+      email,
+      slug,
+    });
+    if (existingSubmission) {
+      return res.status(400).json({
+        message: "You have already submitted a form for this solution.",
+      });
+    }
+
+    const newSubmission = new SolutionForm({
+      fullName,
+      phoneNumber,
+      email,
+      employmentStatus,
+      jobTitle,
+      selectedSolution,
+      slug,
+      solutionCategory,
+      companyName,
+      companyIndustry,
+      companySize,
+      country,
+      firstName,
+      lastName,
+      solutionType,
+    });
+
+    // Save the submission
+    await newSubmission.save();
+
+    // Send confirmation email based on solution type
+    try {
+      if (solutionType === "ConsultingService") {
+        await sendRegSuccessMail2({
+          fullName,
+          phoneNumber,
+          email,
+          employmentStatus,
+          jobTitle,
+          selectedSolution,
+          slug,
+          solutionCategory,
+          companyName,
+          companyIndustry,
+          companySize,
+          country,
+          firstName,
+          lastName,
+          solutionType,
+        });
+      } else {
+        await sendRegSuccessMail1({
+          firstName,
+          lastName,
+          phoneNumber,
+          email,
+          employmentStatus,
+          jobTitle,
+          selectedSolution,
+        });
+      }
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError);
+      // Continue execution - don't let email failure stop the registration process
+    }
+
+    // Send success response
+    return res.status(201).json({
+      message: "Form submitted successfully",
+      data: newSubmission,
+    });
+  } catch (error) {
+    console.error("Error submitting solution form:", error);
+    return res.status(500).json({
+      message: "An error occurred while submitting the form",
+      error: error.message,
+    });
+  }
+};
 module.exports = {
   createSolution,
   getAllSolutions,
@@ -380,4 +567,5 @@ module.exports = {
   deleteSolutionsByType,
   NewLetterSubscribe,
   getNewsletterSubscribers,
+  registerForSolution,
 };

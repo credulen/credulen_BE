@@ -238,50 +238,6 @@ const deleteEvent = async (req, res, next) => {
   }
 };
 
-const registerForSolution = async (req, res, next) => {
-  try {
-    const {
-      fullName,
-      phoneNumber,
-      email,
-      employmentStatus,
-      jobTitle,
-      selectedSolution,
-      slug,
-    } = req.body;
-
-    // Check for existing submission
-    const existingSubmission = await SolutionForm.findOne({
-      email,
-      slug,
-    });
-    if (existingSubmission) {
-      return res.status(400).json({
-        message: "You have already submitted a form for this solution.",
-      });
-    }
-
-    const newSubmission = new SolutionForm({
-      fullName,
-      phoneNumber,
-      email,
-      employmentStatus,
-      jobTitle,
-      selectedSolution,
-      slug,
-    });
-
-    await newSubmission.save();
-
-    res.status(201).json({ message: "Form submitted successfully" });
-  } catch (error) {
-    console.error("Error submitting solution form:", error);
-    res
-      .status(500)
-      .json({ message: "An error occurred while submitting the form" });
-  }
-};
-
 const getRelatedEvents = async (req, res, next) => {
   try {
     const { category, currentEventId } = req.query;
@@ -357,6 +313,64 @@ const registerEvent = async (req, res) => {
     res
       .status(500)
       .json({ message: "An error occurred while registering for the event" });
+  }
+};
+
+const verifyRegistration = async (req, res) => {
+  try {
+    const { email, slug } = req.body;
+
+    if (!email || !slug) {
+      return res.status(400).json({
+        message: "Email and event slug are required.",
+      });
+    }
+
+    // Find registration matching the email and event slug
+    const registration = await EventRegistration.findOne({
+      email: email.toLowerCase(), // Convert to lowercase for case-insensitive matching
+      slug: slug,
+    });
+
+    // If no registration found
+    if (!registration) {
+      return res.status(404).json({
+        message:
+          "No registration found for this email address. Please register first.",
+      });
+    }
+
+    // Get the event details to verify if it's a past event with video
+    const event = await Event.findOne({ slug: slug });
+
+    if (!event) {
+      return res.status(404).json({
+        message: "Event not found.",
+      });
+    }
+
+    // Check if event is past and has video
+    const isPastEvent = new Date(event.date) < new Date();
+    if (!isPastEvent || !event.videoUrl) {
+      return res.status(400).json({
+        message: "Video is not available for this event.",
+      });
+    }
+
+    // If all checks pass, return success
+    res.status(200).json({
+      message: "Verification successful",
+      data: {
+        fullName: registration.fullName,
+        eventTitle: registration.eventTitle,
+        registrationDate: registration.createdAt,
+      },
+    });
+  } catch (error) {
+    console.error("Error verifying registration:", error);
+    res.status(500).json({
+      message: "An error occurred while verifying registration.",
+    });
   }
 };
 const getAllRegisteredEvents = async (req, res, next) => {
@@ -443,9 +457,9 @@ module.exports = {
   getEventBySlug,
   updateEvent,
   deleteEvent,
-  registerForSolution,
   getRelatedEvents,
   registerEvent,
+  verifyRegistration,
   getAllRegisteredEvents,
   handleDeleteByEvent,
 };

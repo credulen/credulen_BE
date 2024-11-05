@@ -15,6 +15,7 @@ const {
   deleteSolutionsByType,
   NewLetterSubscribe,
   getNewsletterSubscribers,
+  registerForSolution,
 } = require("../controllers/solutionController");
 
 // Configure multer storage
@@ -65,5 +66,6 @@ router.get("/getSolutionForms", getSolutionForms);
 router.delete("/deleteSolutionsByType", deleteSolutionsByType);
 router.post("/newsletter-signup", NewLetterSubscribe);
 router.get("/getNewsletterSubscribers", getNewsletterSubscribers);
+router.post("/registerForSolution", registerForSolution);
 
 module.exports = router;
