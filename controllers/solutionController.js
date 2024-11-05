@@ -540,7 +540,6 @@ const registerForSolution = async (req, res, next) => {
       }
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
-      // Continue execution - don't let email failure stop the registration process
     }
 
     // Send success response
