@@ -7,6 +7,7 @@ const path = require("path");
 const {
   createSolution,
   getAllSolutions,
+  getAllSolutionLists,
   getSolutionBySlug,
   updateSolution,
   deleteSolution,
@@ -60,6 +61,7 @@ router.post("/createSolution/", upload.single("image"), createSolution);
 router.put("/updateSolution/:slug", upload.single("image"), updateSolution);
 router.delete("/deleteSolution/:solutionId", deleteSolution);
 router.get("/getAllSolutions", getAllSolutions);
+router.get("/getAllSolutionLists", getAllSolutionLists);
 router.get("/getSolutionBySlug/:slug", getSolutionBySlug);
 router.post("/submitSolutionForm", submitSolutionForm);
 router.get("/getSolutionForms", getSolutionForms);

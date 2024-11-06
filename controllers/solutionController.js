@@ -50,42 +50,139 @@ const createSolution = async (req, res, next) => {
   }
 };
 
+// const getAllSolutions = async (req, res, next) => {
+//   try {
+//     // Get pagination parameters from query with defaults
+//     const page = parseInt(req.query.page, 10) || 1;
+//     const pageSize = parseInt(req.query.pageSize, 10) || 6; // Changed from 9 to 6
+//     const sortDirection = req.query.order === "asc" ? 1 : -1;
+
+//     // Calculate skip value for pagination
+//     const skip = (page - 1) * pageSize;
+
+//     // Build query object
+//     const query = {
+//       ...(req.query.category && { category: req.query.category }),
+//       ...(req.query.searchTerm && {
+//         $or: [
+//           { title: { $regex: req.query.searchTerm, $options: "i" } },
+//           { content: { $regex: req.query.searchTerm, $options: "i" } },
+//         ],
+//       }),
+//     };
+
+//     // Execute main query with pagination
+//     const solutions = await Solution.find(query)
+//       .sort({ updatedAt: sortDirection })
+//       .skip(skip)
+//       .limit(pageSize);
+
+//     // Get total count for pagination calculations
+//     const totalCount = await Solution.countDocuments(query);
+
+//     // Calculate pagination values
+//     const totalPages = Math.ceil(totalCount / pageSize);
+//     const hasNextPage = page < totalPages;
+//     const hasPrevPage = page > 1;
+
+//     // Get last month's solutions count
+//     const now = new Date();
+//     const oneMonthAgo = new Date(
+//       now.getFullYear(),
+//       now.getMonth() - 1,
+//       now.getDate()
+//     );
+//     const lastMonthSolutions = await Solution.countDocuments({
+//       createdAt: { $gte: oneMonthAgo },
+//     });
+
+//     // Send response with pagination metadata
+//     res.status(200).json({
+//       solutions,
+//       pagination: {
+//         currentPage: page,
+//         pageSize,
+//         totalPages,
+//         totalCount,
+//         hasNextPage,
+//         hasPrevPage,
+//       },
+//       lastMonthSolutions,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+// Backend getAllSolutions controller
 const getAllSolutions = async (req, res, next) => {
   try {
-    const startIndex = parseInt(req.query.startIndex, 10) || 0;
-    const limit = parseInt(req.query.limit, 10) || 9;
+    // Get pagination parameters from query with defaults
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1); // Ensure page is at least 1
+    const pageSize = Math.max(
+      1,
+      Math.min(50, parseInt(req.query.pageSize, 10) || 6)
+    ); // Limit pageSize between 1 and 50
     const sortDirection = req.query.order === "asc" ? 1 : -1;
+    const category = req.query.category || null;
 
-    const query = {
-      ...(req.query.category && { category: req.query.category }),
-      ...(req.query.searchTerm && {
-        $or: [
-          { title: { $regex: req.query.searchTerm, $options: "i" } },
-          { content: { $regex: req.query.searchTerm, $options: "i" } },
-        ],
-      }),
-    };
+    // Calculate skip value for pagination
+    const skip = (page - 1) * pageSize;
 
+    // Build query object
+    const query = {};
+    if (category) {
+      query.category = category;
+    }
+
+    if (req.query.searchTerm) {
+      query.$or = [
+        { title: { $regex: req.query.searchTerm, $options: "i" } },
+        { content: { $regex: req.query.searchTerm, $options: "i" } },
+      ];
+    }
+
+    // Get total count first
+    const totalCount = await Solution.countDocuments(query);
+    const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+    // Adjust page if it exceeds totalPages
+    const adjustedPage = Math.min(page, totalPages);
+    const adjustedSkip = (adjustedPage - 1) * pageSize;
+
+    // Execute main query with pagination
     const solutions = await Solution.find(query)
       .sort({ updatedAt: sortDirection })
-      .skip(startIndex)
-      .limit(limit);
+      .skip(adjustedSkip)
+      .limit(pageSize);
 
-    const totalSolutions = await Solution.countDocuments(query);
+    // Calculate pagination values
+    const hasNextPage = adjustedPage < totalPages;
+    const hasPrevPage = adjustedPage > 1;
 
+    // Get last month's solutions count
     const now = new Date();
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
       now.getDate()
     );
+
     const lastMonthSolutions = await Solution.countDocuments({
       createdAt: { $gte: oneMonthAgo },
+      ...(category && { category }),
     });
 
+    // Send response with pagination metadata
     res.status(200).json({
       solutions,
-      totalSolutions,
+      pagination: {
+        currentPage: adjustedPage,
+        pageSize,
+        totalPages,
+        totalCount,
+        hasNextPage,
+        hasPrevPage,
+      },
       lastMonthSolutions,
     });
   } catch (error) {
@@ -93,10 +190,57 @@ const getAllSolutions = async (req, res, next) => {
   }
 };
 
+const getAllSolutionLists = async (req, res, next) => {
+  try {
+    const pageSize = Math.max(
+      1,
+      Math.min(50, parseInt(req.query.pageSize, 10) || 6)
+    );
+    const category = req.query.category || null;
+    const startIndex = parseInt(req.query.startIndex, 10) || 0; // Keep this for pagination
+
+    // Build query object
+    const query = {};
+    if (category) {
+      query.category = category;
+    }
+    if (req.query.searchTerm) {
+      query.$or = [
+        { title: { $regex: req.query.searchTerm, $options: "i" } },
+        { content: { $regex: req.query.searchTerm, $options: "i" } },
+      ];
+    }
+
+    // Get total count first
+    const totalCount = await Solution.countDocuments(query);
+    const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+
+    // Execute main query with pagination
+    const solutions = await Solution.find(query)
+      .sort({ updatedAt: -1 })
+      .skip(startIndex) // Use startIndex directly
+      .limit(pageSize + 1); // Fetch one extra to check for more
+
+    // Check if there are more items
+    const hasMore = solutions.length > pageSize;
+    const finalSolutions = solutions.slice(0, pageSize); // Slice to get the exact page size
+
+    // Send response with pagination metadata
+    res.status(200).json({
+      solutions: finalSolutions,
+      pagination: {
+        totalCount,
+        hasMore,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 const getSolutionForms = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex, 10) || 0;
-    const limit = parseInt(req.query.limit, 10) || 9;
+    const limit = parseInt(req.query.limit, 10) || 20;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     // Build the query based on the request parameters
@@ -373,88 +517,6 @@ const getNewsletterSubscribers = async (req, res) => {
   }
 };
 
-// const registerForSolution = async (req, res, next) => {
-//   try {
-//     const {
-//       fullName,
-//       phoneNumber,
-//       email,
-//       employmentStatus,
-//       jobTitle,
-//       selectedSolution,
-//       slug,
-//       solutionCategory,
-//       companyName,
-//       companyIndustry,
-//       companySize,
-//       country,
-//       firstName,
-//       lastName,
-//       solutionType,
-//     } = req.body;
-
-//     // Check for existing submission
-//     const existingSubmission = await SolutionForm.findOne({
-//       email,
-//       slug,
-//     });
-//     if (existingSubmission) {
-//       return res.status(400).json({
-//         message: "You have already submitted a form for this solution.",
-//       });
-//     }
-
-//     const newSubmission = new SolutionForm({
-//       fullName,
-//       phoneNumber,
-//       email,
-//       employmentStatus,
-//       jobTitle,
-//       selectedSolution,
-//       slug,
-//       solutionCategory,
-//       companyName,
-//       companyIndustry,
-//       companySize,
-//       country,
-//       firstName,
-//       lastName,
-//       solutionType,
-//     });
-
-//     await newSubmission.save();
-
-//     try {
-//       await sendRegistrationEmail({
-//         fullName,
-//         phoneNumber,
-//         email,
-//         employmentStatus,
-//         jobTitle,
-//         selectedSolution,
-//         slug,
-//         solutionCategory,
-//         companyName,
-//         companyIndustry,
-//         companySize,
-//         country,
-//         firstName,
-//         lastName,
-//         solutionType,
-//       });
-//     } catch (emailError) {
-//       console.error("Failed to send confirmation email:", emailError);
-//     }
-
-//     res.status(201).json({ message: "Form submitted successfully" });
-//   } catch (error) {
-//     console.error("Error submitting solution form:", error);
-//     res
-//       .status(500)
-//       .json({ message: "An error occurred while submitting the form" });
-//   }
-// };
-
 const registerForSolution = async (req, res, next) => {
   try {
     const {
@@ -558,6 +620,7 @@ const registerForSolution = async (req, res, next) => {
 module.exports = {
   createSolution,
   getAllSolutions,
+  getAllSolutionLists,
   getSolutionBySlug,
   updateSolution,
   deleteSolution,
