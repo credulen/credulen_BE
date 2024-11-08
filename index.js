@@ -157,6 +157,17 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
+// Add this middleware before your routes
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
 
 // Export the app for Vercel
 module.exports = app;
