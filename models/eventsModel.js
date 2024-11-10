@@ -30,6 +30,18 @@ const eventSchema = new mongoose.Schema({
   venue: {
     type: String,
   },
+  meetingId: {
+    type: String,
+  },
+  passcode: {
+    type: String,
+  },
+  duration: {
+    type: String,
+  },
+  meetingLink: {
+    type: String,
+  },
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

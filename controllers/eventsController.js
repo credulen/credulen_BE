@@ -4,6 +4,8 @@ const { errorHandler } = require("../middlewares/errorHandling");
 const EventRegistration = require("../models/registerEventModel");
 const SolutionForm = require("../models/solutionFormModel");
 
+const { sendEventConfirmationEmail } = require("../config/eventRegmail");
+
 // Create a new event
 const createEvent = async (req, res, next) => {
   try {
@@ -15,6 +17,10 @@ const createEvent = async (req, res, next) => {
       category,
       date,
       venue,
+      meetingId,
+      passcode,
+      duration,
+      meetingLink,
       organizer,
       speakers,
     } = req.body;
@@ -58,6 +64,10 @@ const createEvent = async (req, res, next) => {
       videoUrl,
       date,
       venue,
+      meetingId,
+      passcode,
+      duration,
+      meetingLink,
       organizer,
       speakers: parsedSpeakers,
       image: imageUrl,
@@ -161,6 +171,10 @@ const updateEvent = async (req, res, next) => {
       videoUrl,
       category,
       date,
+      meetingId,
+      passcode,
+      duration,
+      meetingLink,
       venue,
       speakers,
     } = req.body;
@@ -202,6 +216,7 @@ const updateEvent = async (req, res, next) => {
       }
     }
 
+    // Update the event fields
     event.title = title;
     event.eventType = eventType;
     event.content = description; // Changed from 'content' to 'description' to match createEvent
@@ -209,6 +224,10 @@ const updateEvent = async (req, res, next) => {
     event.videoUrl = videoUrl;
     event.date = date;
     event.venue = venue;
+    event.meetingId = meetingId; // Ensure this is updated
+    event.passcode = passcode; // Ensure this is updated
+    event.duration = duration; // Ensure this is updated
+    event.meetingLink = meetingLink; // Ensure this is updated
     event.image = imageUrl;
     event.slug = slug;
     event.speakers = parsedSpeakers;
@@ -283,6 +302,19 @@ const registerEvent = async (req, res) => {
       slug,
     } = req.body;
 
+    // Check for existing registration
+    const existingRegistration = await EventRegistration.findOne({
+      email,
+      slug,
+    });
+
+    if (existingRegistration) {
+      return res
+        .status(400)
+        .json({ message: "You are already registered for this event." });
+    }
+
+    // Create a new registration
     const newRegistration = new EventRegistration({
       fullName,
       email,
@@ -293,20 +325,44 @@ const registerEvent = async (req, res) => {
       slug,
     });
 
-    const existingRegistration = await EventRegistration.findOne({
-      email,
-      slug,
-    });
-
-    // Check for existing registration
-    if (existingRegistration) {
-      return res
-        .status(400)
-        .json({ message: "You are already registered for this event." });
-    }
-
+    // Save the registration
     await newRegistration.save();
 
+    // Fetch the event details to check the date
+    const event = await Event.findOne({ slug })
+      .populate("organizer", "name image") // Populate organizer details
+      .populate("speakers", "name image bio"); // Populate speakers details
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found." });
+    }
+
+    // Check if the event date is in the future
+    const eventDate = new Date(event.date);
+    const now = new Date();
+
+    if (eventDate > now) {
+      // Send confirmation email
+      try {
+        await sendEventConfirmationEmail({
+          fullName,
+          email,
+          eventTitle,
+          eventCategory,
+          venue: event.venue, // Pass venue
+          meetingId: event.meetingId, // Pass meeting ID
+          passcode: event.passcode, // Pass passcode
+          duration: event.duration, // Pass duration
+          meetingLink: event.meetingLink, // Pass meeting link
+          eventDate: event.date, // Pass event date
+        });
+      } catch (emailError) {
+        console.error("Failed to send confirmation email:", emailError);
+        // Optionally, you can log this error or handle it as needed
+      }
+    }
+
+    // Send success response
     res.status(201).json({ message: "Registration successful" });
   } catch (error) {
     console.error("Error registering for event:", error);

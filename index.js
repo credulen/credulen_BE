@@ -101,6 +101,15 @@ const commentRoutes = require("./routes/commentRoutes.js");
 const speakerRoutes = require("./routes/speakerRoutes.js");
 const eventsRoutes = require("./routes/eventsRoutes.js");
 const solutionRoutes = require("./routes/solutionRoutes.js");
+const joinCommunityRoutes = require("./routes/joinCommunityroutes.js");
+const {
+  scheduleReminders,
+  triggerReminderCheck,
+  getRemindersStatus,
+} = require("./config/eventRegmail.js");
+
+scheduleReminders();
+triggerReminderCheck();
 
 dotenv.config();
 connectDB();
@@ -150,12 +159,16 @@ app.use("/api", commentRoutes);
 app.use("/api", speakerRoutes);
 app.use("/api", eventsRoutes);
 app.use("/api", solutionRoutes);
+app.use("/api", joinCommunityRoutes);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
+});
+app.get("/api/reminder-status", (req, res) => {
+  res.json(getRemindersStatus());
 });
 // Add this middleware before your routes
 app.use((req, res, next) => {
