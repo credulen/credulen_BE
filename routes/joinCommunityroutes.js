@@ -6,6 +6,8 @@ const {
   getAllRegistrations,
   getRegistration,
   deleteRegistration,
+  getBannerStatus,
+  updateBannerStatus,
 } = require("../controllers/joincommunityController");
 
 // Public routes
@@ -16,5 +18,9 @@ router.get("/getAllRegistrations", getAllRegistrations);
 router.get("/getRegistration/:id", getRegistration);
 
 router.delete("/deleteRegistration/:id", deleteRegistration);
+
+router.get("/getBannerStatus", getBannerStatus);
+
+router.post("/updateBannerStatus", updateBannerStatus);
 
 module.exports = router;

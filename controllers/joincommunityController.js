@@ -1,5 +1,6 @@
 // controllers/joinCommunityController.js
 const Registration = require("../models/joinCommunityModel");
+const BannerStatus = require("../models/bannerStatusModel");
 
 const registerJoinCommunity = async (req, res) => {
   try {
@@ -109,9 +110,38 @@ const deleteRegistration = async (req, res) => {
   }
 };
 
+// Get banner status
+const getBannerStatus = async (req, res) => {
+  try {
+    const status = await BannerStatus.findOne();
+    res.status(200).json(status || { isActive: false }); // Default to inactive if not found
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Error retrieving banner status",
+    });
+  }
+};
+
+// Update banner status
+const updateBannerStatus = async (req, res) => {
+  const { isActive } = req.body;
+  try {
+    await BannerStatus.findOneAndUpdate({}, { isActive }, { upsert: true });
+    res.status(200).json({ message: "Banner status updated" });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message || "Error updating banner status",
+    });
+  }
+};
+
 module.exports = {
   registerJoinCommunity,
   getAllRegistrations,
   getRegistration,
   deleteRegistration,
+  getBannerStatus,
+  updateBannerStatus,
 };
