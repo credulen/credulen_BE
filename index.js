@@ -140,6 +140,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://credulen-branch2-opal.vercel.app",
+      "https://credulen-be.vercel.app/",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
