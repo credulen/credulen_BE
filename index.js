@@ -186,7 +186,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || "your_session_secret",
     resave: false,
-    saveUninitialized: false, // Changed to false for better security
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
