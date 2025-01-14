@@ -12,46 +12,41 @@ const {
   addPastEvent,
 } = require("../controllers/speakerController");
 
-// Configure multer storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory where files will be saved
-  },
-  filename: (req, file, cb) => {
-    console.log("Saving file with name:", file.originalname);
-    cb(null, `${Date.now()}-${file.originalname}`); // Append timestamp to avoid filename collisions
-  },
-});
-
-// Initialize multer for handling single file upload
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit for file size
-  fileFilter: (req, file, cb) => {
-    checkFileType(file, cb); // Validate file type
-  },
-});
-
-// Check file type function
-const checkFileType = (file, cb) => {
-  const fileTypes = /jpeg|jpg|png|gif|svg/;
-
-  // Check file extension
-  const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
-
-  // Check MIME type
-  const mimeType = fileTypes.test(file.mimetype);
-
-  if (mimeType && extName) {
-    return cb(null, true); // If valid, accept the file
-  } else {
-    cb(new Error("Only images (jpeg, jpg, png, gif, svg) are allowed!"));
+// Middleware for file type validation
+const validateFileType = (req, res, next) => {
+  if (!req.files || !req.files.image) {
+    return next(); // No file uploaded, continue
   }
+
+  const file = req.files.image;
+  const allowedTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/svg+xml",
+  ];
+  const maxSize = 5 * 1024 * 1024; // 5MB
+
+  if (!allowedTypes.includes(file.mimetype)) {
+    return res.status(400).json({
+      message:
+        "Error: You can only upload image files (jpeg, jpg, png, gif, svg)!",
+    });
+  }
+
+  if (file.size > maxSize) {
+    return res.status(400).json({
+      message: "Error: File size cannot exceed 5MB!",
+    });
+  }
+
+  next();
 };
 
 // Define the routes for speaker management with image upload for create and update
-router.post("/createSpeaker", upload.single("image"), createSpeaker);
-router.put("/updateSpeaker/:id", upload.single("image"), updateSpeaker);
+router.post("/createSpeaker", validateFileType, createSpeaker);
+router.put("/updateSpeaker/:id", validateFileType, updateSpeaker);
 router.delete("/deleteSpeaker/:id", deleteSpeaker);
 router.get("/getAllSpeakers", getAllSpeakers);
 router.get("/getSpeakerById/:id", getSpeakerById);

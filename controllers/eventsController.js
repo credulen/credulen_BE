@@ -3,6 +3,67 @@ const Speaker = require("../models/speakerModel"); // Assuming you have a Speake
 const { errorHandler } = require("../middlewares/errorHandling");
 const EventRegistration = require("../models/registerEventModel");
 const SolutionForm = require("../models/solutionFormModel");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs").promises;
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Helper function to upload image to Cloudinary
+const uploadToCloudinary = async (file, folder = "Credulen/events") => {
+  try {
+    if (!file?.tempFilePath) {
+      throw new Error("No temp file path found");
+    }
+
+    const result = await cloudinary.uploader.upload(file.tempFilePath, {
+      folder: folder,
+      resource_type: "auto",
+    });
+
+    // Clean up temp file
+    await fs.unlink(file.tempFilePath);
+    return result.secure_url;
+  } catch (error) {
+    console.error("Upload to Cloudinary failed:", error);
+    throw new Error(`Cloudinary upload failed: ${error.message}`);
+  }
+};
+
+// Helper function to delete image from Cloudinary
+const deleteFromCloudinary = async (url) => {
+  try {
+    if (!url) return;
+
+    // Parse the Cloudinary URL
+    const urlParts = url.split("/");
+    const versionIndex = urlParts.findIndex((part) => part.startsWith("v"));
+
+    if (versionIndex === -1) {
+      console.error(`Invalid Cloudinary URL format: ${url}`);
+      return;
+    }
+
+    const publicId = urlParts
+      .slice(versionIndex + 1)
+      .join("/")
+      .replace(/\.[^/.]+$/, "");
+
+    const result = await cloudinary.uploader.destroy(publicId);
+
+    if (result.result === "ok") {
+      console.log(`Successfully deleted image from Cloudinary: ${publicId}`);
+    } else {
+      console.error(`Deletion failed for: ${publicId}`, result);
+    }
+  } catch (error) {
+    console.error(`Failed to delete from Cloudinary:`, error);
+  }
+};
 
 const { sendEventConfirmationEmail } = require("../config/eventRegmail");
 
@@ -25,9 +86,16 @@ const createEvent = async (req, res, next) => {
       speakers,
     } = req.body;
 
+    // Handle image upload to Cloudinary
     let imageUrl = null;
-    if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
+    if (req.files && req.files.image) {
+      try {
+        imageUrl = await uploadToCloudinary(req.files.image);
+      } catch (uploadError) {
+        return next(
+          errorHandler(500, `Image upload failed: ${uploadError.message}`)
+        );
+      }
     }
 
     const slug = title
@@ -78,9 +146,7 @@ const createEvent = async (req, res, next) => {
     res.status(201).json(savedEvent);
   } catch (error) {
     console.error("Error in createEvent:", error);
-    res.status(500).json({
-      message: error.message || "An error occurred while creating the event",
-    });
+    next(error);
   }
 };
 
@@ -161,6 +227,7 @@ const getEventBySlug = async (req, res, next) => {
   }
 };
 
+// Update an event
 const updateEvent = async (req, res, next) => {
   try {
     const { eventId } = req.params;
@@ -184,9 +251,21 @@ const updateEvent = async (req, res, next) => {
       return next(errorHandler(404, "Event not found"));
     }
 
+    // Handle image update
     let imageUrl = event.image;
-    if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
+    if (req.files && req.files.image) {
+      try {
+        // Delete old image if it exists
+        if (event.image) {
+          await deleteFromCloudinary(event.image);
+        }
+        // Upload new image
+        imageUrl = await uploadToCloudinary(req.files.image);
+      } catch (uploadError) {
+        return next(
+          errorHandler(500, `Image upload failed: ${uploadError.message}`)
+        );
+      }
     }
 
     const slug = title
@@ -216,43 +295,55 @@ const updateEvent = async (req, res, next) => {
       }
     }
 
-    // Update the event fields
-    event.title = title;
-    event.eventType = eventType;
-    event.content = description; // Changed from 'content' to 'description' to match createEvent
-    event.category = category;
-    event.videoUrl = videoUrl;
-    event.date = date;
-    event.venue = venue;
-    event.meetingId = meetingId; // Ensure this is updated
-    event.passcode = passcode; // Ensure this is updated
-    event.duration = duration; // Ensure this is updated
-    event.meetingLink = meetingLink; // Ensure this is updated
-    event.image = imageUrl;
-    event.slug = slug;
-    event.speakers = parsedSpeakers;
-    event.updatedAt = Date.now();
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId,
+      {
+        title,
+        eventType,
+        content: description,
+        category,
+        videoUrl,
+        date,
+        venue,
+        meetingId,
+        passcode,
+        duration,
+        meetingLink,
+        image: imageUrl,
+        slug,
+        speakers: parsedSpeakers,
+        updatedAt: Date.now(),
+      },
+      { new: true }
+    );
 
-    const updatedEvent = await event.save();
     res.status(200).json(updatedEvent);
   } catch (error) {
     console.error("Error in updateEvent:", error);
     next(error);
   }
 };
+
 // Delete an event
 const deleteEvent = async (req, res, next) => {
   try {
     const { eventId } = req.params;
-    const deletedEvent = await Event.findByIdAndDelete(eventId);
+    const event = await Event.findById(eventId);
 
-    if (!deletedEvent) {
-      return res.status(404).json({ message: "Event not found" });
+    if (!event) {
+      return next(errorHandler(404, "Event not found"));
     }
 
+    // Delete image from Cloudinary if it exists
+    if (event.image) {
+      await deleteFromCloudinary(event.image);
+    }
+
+    // Delete event from database
+    await Event.findByIdAndDelete(eventId);
     res.status(200).json({ message: "Event deleted successfully" });
   } catch (error) {
-    console.error("Error deleting event:", error.message);
+    console.error("Error deleting event:", error);
     next(error);
   }
 };

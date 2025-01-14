@@ -123,6 +123,7 @@ const speakerRoutes = require("./routes/speakerRoutes.js");
 const eventsRoutes = require("./routes/eventsRoutes.js");
 const solutionRoutes = require("./routes/solutionRoutes.js");
 const joinCommunityRoutes = require("./routes/joinCommunityroutes.js");
+const fileUpload = require("express-fileupload");
 
 const {
   scheduleReminders,
@@ -209,6 +210,13 @@ app.use(errorHandlingMiddleware);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/insertImage", express.static(path.join(__dirname, "insertImage")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 
 // Logging Middleware
 if (process.env.NODE_ENV !== "production") {

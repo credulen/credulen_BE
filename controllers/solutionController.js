@@ -3,116 +3,124 @@ const SolutionForm = require("../models/solutionFormModel.js");
 const NewsletterSubscription = require("../models/NewsLetterModel.js");
 const { errorHandler } = require("../middlewares/errorHandling.js");
 const moment = require("moment");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs").promises;
+
 const {
   sendRegSuccessMail1,
   sendRegSuccessMail2,
 } = require("../config/regSucessMail.js");
+
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Helper function to upload image to Cloudinary
+const uploadToCloudinary = async (file, folder = "Credulen/solutions") => {
+  try {
+    if (!file?.tempFilePath) {
+      throw new Error("No temp file path found");
+    }
+
+    const result = await cloudinary.uploader.upload(file.tempFilePath, {
+      folder: folder,
+      resource_type: "auto",
+    });
+
+    // Clean up temp file
+    await fs.unlink(file.tempFilePath);
+    return result.secure_url;
+  } catch (error) {
+    console.error("Upload to Cloudinary failed:", error);
+    throw new Error(`Cloudinary upload failed: ${error.message}`);
+  }
+};
+
+// Helper function to delete image from Cloudinary
+const deleteFromCloudinary = async (url) => {
+  try {
+    if (!url) return;
+
+    // Parse the Cloudinary URL
+    const urlParts = url.split("/");
+    const versionIndex = urlParts.findIndex((part) => part.startsWith("v"));
+
+    if (versionIndex === -1) {
+      console.error(`Invalid Cloudinary URL format: ${url}`);
+      return;
+    }
+
+    const publicId = urlParts
+      .slice(versionIndex + 1)
+      .join("/")
+      .replace(/\.[^/.]+$/, "");
+
+    const result = await cloudinary.uploader.destroy(publicId);
+
+    if (result.result === "ok") {
+      console.log(`Successfully deleted image from Cloudinary: ${publicId}`);
+    } else {
+      console.error(`Deletion failed for: ${publicId}`, result);
+    }
+  } catch (error) {
+    console.error(`Failed to delete from Cloudinary:`, error);
+  }
+};
 
 const createSolution = async (req, res, next) => {
   try {
     const { title, content, category } = req.body;
 
     if (!title || !content) {
-      return next(errorHandler(400, "Title, content are required"));
+      return next(errorHandler(400, "Title and content are required"));
     }
 
     const existingSolution = await Solution.findOne({ title });
     if (existingSolution) {
-      return res
-        .status(400)
-        .json({ message: "Solution with same title exists" });
+      return next(errorHandler(400, "Solution with same title exists"));
     }
 
+    // Handle image upload to Cloudinary
     let imageUrl = null;
-    if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
+    if (req.files && req.files.image) {
+      try {
+        imageUrl = await uploadToCloudinary(req.files.image);
+      } catch (uploadError) {
+        return next(
+          errorHandler(500, `Image upload failed: ${uploadError.message}`)
+        );
+      }
     }
 
     const slug = title
-      .split(" ")
-      .join("-")
+      .trim()
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9-]/g, "");
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
 
     const newSolution = new Solution({
-      title,
-      content,
-      category: category || "Uncategorized",
+      title: title.trim(),
+      content: content.trim(),
+      category: category?.trim() || "Uncategorized",
       slug,
       image: imageUrl,
     });
 
     const savedSolution = await newSolution.save();
-    res.status(201).json(savedSolution);
+    res.status(201).json({
+      success: true,
+      solution: savedSolution,
+      message: "Solution created successfully",
+    });
   } catch (error) {
     console.error("Error in createSolution:", error);
     next(error);
   }
 };
 
-// const getAllSolutions = async (req, res, next) => {
-//   try {
-//     // Get pagination parameters from query with defaults
-//     const page = parseInt(req.query.page, 10) || 1;
-//     const pageSize = parseInt(req.query.pageSize, 10) || 6; // Changed from 9 to 6
-//     const sortDirection = req.query.order === "asc" ? 1 : -1;
-
-//     // Calculate skip value for pagination
-//     const skip = (page - 1) * pageSize;
-
-//     // Build query object
-//     const query = {
-//       ...(req.query.category && { category: req.query.category }),
-//       ...(req.query.searchTerm && {
-//         $or: [
-//           { title: { $regex: req.query.searchTerm, $options: "i" } },
-//           { content: { $regex: req.query.searchTerm, $options: "i" } },
-//         ],
-//       }),
-//     };
-
-//     // Execute main query with pagination
-//     const solutions = await Solution.find(query)
-//       .sort({ updatedAt: sortDirection })
-//       .skip(skip)
-//       .limit(pageSize);
-
-//     // Get total count for pagination calculations
-//     const totalCount = await Solution.countDocuments(query);
-
-//     // Calculate pagination values
-//     const totalPages = Math.ceil(totalCount / pageSize);
-//     const hasNextPage = page < totalPages;
-//     const hasPrevPage = page > 1;
-
-//     // Get last month's solutions count
-//     const now = new Date();
-//     const oneMonthAgo = new Date(
-//       now.getFullYear(),
-//       now.getMonth() - 1,
-//       now.getDate()
-//     );
-//     const lastMonthSolutions = await Solution.countDocuments({
-//       createdAt: { $gte: oneMonthAgo },
-//     });
-
-//     // Send response with pagination metadata
-//     res.status(200).json({
-//       solutions,
-//       pagination: {
-//         currentPage: page,
-//         pageSize,
-//         totalPages,
-//         totalCount,
-//         hasNextPage,
-//         hasPrevPage,
-//       },
-//       lastMonthSolutions,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 // Backend getAllSolutions controller
 const getAllSolutions = async (req, res, next) => {
   try {
@@ -341,30 +349,51 @@ const updateSolution = async (req, res, next) => {
       return next(errorHandler(400, "Title and content are required"));
     }
 
-    const solution = await Solution.findOne({ slug: slug });
+    const solution = await Solution.findOne({ slug });
     if (!solution) {
       return next(errorHandler(404, "Solution not found"));
     }
 
+    // Handle image update
     let imageUrl = solution.image;
-    if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
+    if (req.files && req.files.image) {
+      try {
+        // Delete old image if it exists
+        if (solution.image) {
+          await deleteFromCloudinary(solution.image);
+        }
+        // Upload new image
+        imageUrl = await uploadToCloudinary(req.files.image);
+      } catch (uploadError) {
+        return next(
+          errorHandler(500, `Image upload failed: ${uploadError.message}`)
+        );
+      }
     }
 
     const newSlug = title
-      .split(" ")
-      .join("-")
+      .trim()
       .toLowerCase()
-      .replace(/[^a-zA-Z0-9-]/g, "");
+      .replace(/[^a-zA-Z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
 
-    solution.title = title;
-    solution.content = content;
-    solution.category = category || "Uncategorized";
-    solution.slug = newSlug;
-    solution.image = imageUrl;
+    const updatedSolution = await Solution.findOneAndUpdate(
+      { slug },
+      {
+        title: title.trim(),
+        content: content.trim(),
+        category: category?.trim() || solution.category,
+        slug: newSlug,
+        image: imageUrl,
+      },
+      { new: true }
+    );
 
-    const updatedSolution = await solution.save();
-    res.status(200).json(updatedSolution);
+    res.status(200).json({
+      success: true,
+      solution: updatedSolution,
+      message: "Solution updated successfully",
+    });
   } catch (error) {
     console.error("Error in updateSolution:", error);
     next(error);
@@ -374,16 +403,25 @@ const updateSolution = async (req, res, next) => {
 const deleteSolution = async (req, res, next) => {
   try {
     const { solutionId } = req.params;
+    const solution = await Solution.findById(solutionId);
 
-    const deletedSolution = await Solution.findByIdAndDelete(solutionId);
-
-    if (!deletedSolution) {
-      return res.status(404).json({ message: "Solution not found" });
+    if (!solution) {
+      return next(errorHandler(404, "Solution not found"));
     }
 
-    res.status(200).json({ message: "Solution deleted successfully" });
+    // Delete image from Cloudinary if it exists
+    if (solution.image) {
+      await deleteFromCloudinary(solution.image);
+    }
+
+    // Delete solution from database
+    await Solution.findByIdAndDelete(solutionId);
+    res.status(200).json({
+      success: true,
+      message: "Solution deleted successfully",
+    });
   } catch (error) {
-    console.error("Error deleting solution:", error.message);
+    console.error("Error deleting solution:", error);
     next(error);
   }
 };
