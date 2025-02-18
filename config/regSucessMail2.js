@@ -106,14 +106,14 @@ const sendRegSuccessMail2 = async (data) => {
                           Our team will review your registration and contact you within the next 24-48 hours to discuss the next steps and customize our solution to your specific needs.
                       </p>
                       <p style="color: #666; font-size: 16px; line-height: 1.5;">
-                          In the meantime, if you have any questions, please don't hesitate to reach out to our support team at <a href="mailto:support@creculen.com" style="color: #0066cc; text-decoration: none;">support@creculen.com</a>
+                          In the meantime, if you have any questions, please don't hesitate to reach out to our support team at <a href="mailto:support@creculen.com" style="color: #0066cc; text-decoration: none;">credulen@gmail.com</a>
                       </p>
                   </td>
               </tr>
               <tr>
                   <td style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee;">
                       <p style="color: #666; font-size: 14px; margin: 0;">
-                          © 2024 Creculen. All rights reserved.
+                          © 2024 Credulen. All rights reserved.
                       </p>
                   </td>
               </tr>
