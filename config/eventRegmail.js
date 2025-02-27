@@ -117,7 +117,7 @@ const generateEmailTemplate = (data) => {
         <!-- Header -->
         <div style="background-color: #1e293b; padding: 20px; text-align: center;">
           <img src='https://res.cloudinary.com/dxmiz9idd/image/upload/v1730724855/CredulenLogo_n8wexs.png' 
-               alt="Creculen Logo" 
+               alt="Credulen Logo" 
                width="200" height="70"
                style="display: block; margin: 0 auto;">
         </div>
@@ -162,13 +162,13 @@ const generateEmailTemplate = (data) => {
           </p>
           <p style="color: #1e293b; font-size: 16px; line-height: 1.6;">
             If you have any questions, please don't hesitate to reach out to our support team at 
-            <a href="mailto:support@creculen.com" style="color: #047481; text-decoration: none;">support@creculen.com</a>
+            <a href="mailto:support@Credulen.com" style="color: #047481; text-decoration: none;">support@Credulen.com</a>
           </p>
         </div>
 
         <!-- Footer -->
         <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee;">
-          <p style="color: #1e293b; font-size: 14px; margin: 0;">© 2024 Creculen. All rights reserved.</p>
+          <p style="color: #1e293b; font-size: 14px; margin: 0;">© 2024 Credulen. All rights reserved.</p>
         </div>
       </div>
     </body>
@@ -216,7 +216,7 @@ const generate24HourReminderTemplate = (data) => {
         <!-- Header -->
         <div style="background-color: #1e293b; padding: 20px; text-align: center;">
           <img src='https://res.cloudinary.com/dxmiz9idd/image/upload/v1730724855/CredulenLogo_n8wexs.png' 
-               alt="Creculen Logo" 
+               alt="Credulen Logo" 
                width="200" height="70"
                style="display: block; margin: 0 auto;">
         </div>
@@ -287,7 +287,7 @@ const generate24HourReminderTemplate = (data) => {
 
         <!-- Footer -->
         <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee;">
-          <p style="color: #666; margin: 0;">© 2024 Creculen. All rights reserved.</p>
+          <p style="color: #666; margin: 0;">© 2024 Credulen. All rights reserved.</p>
         </div>
       </div>
     </body>
@@ -310,7 +310,7 @@ const generate1HourReminderTemplate = (data) => {
         <!-- Header -->
         <div style="background-color: #1e293b; padding: 20px; text-align: center;">
           <img src='https://res.cloudinary.com/dxmiz9idd/image/upload/v1730724855/CredulenLogo_n8wexs.png' 
-               alt="Creculen Logo" 
+               alt="Credulen Logo" 
                width="200" height="70"
                style="display: block; margin: 0 auto;">
         </div>
@@ -381,7 +381,7 @@ const generate1HourReminderTemplate = (data) => {
 
         <!-- Footer -->
         <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee;">
-          <p style="color: #666; margin: 0;">© 2024 Creculen. All rights reserved.</p>
+          <p style="color: #666; margin: 0;">© 2024 Credulen. All rights reserved.</p>
         </div>
       </div>
     </body>

@@ -65,7 +65,7 @@ const generateEmailTemplate = (data) => {
               <tr>
                  <td style="background-color: #1e293b; padding: 20px; text-align: center;">
                     <img src='https://res.cloudinary.com/dxmiz9idd/image/upload/v1730724855/CredulenLogo_n8wexs.png' 
-                         alt="Creculen Logo" 
+                         alt="Credulen Logo" 
                          width="200" height="70">
                  </td>
               </tr>
@@ -73,7 +73,7 @@ const generateEmailTemplate = (data) => {
                   <td style="padding: 40px 20px; text-align: center;">
                       <h1 style="color: #047481; margin: 0 0 20px 0; font-size: 28px;">Registration Confirmed!</h1>
                       <p style="color: #1e293b; font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
-                          Thank you for registering for our solutions at Creculen. We're excited to help you unlock intelligence and create value in your journey.
+                          Thank you for registering for our solutions at Credulen. We're excited to help you unlock intelligence and create value in your journey.
                       </p>
                   </td>
               </tr>
@@ -96,14 +96,14 @@ const generateEmailTemplate = (data) => {
                           Our team will review your registration and contact you within the next 24-48 hours to discuss the next steps and customize our solution to your specific needs.
                       </p>
                       <p style="color: #1e293b; font-size: 16px; line-height: 1.5;">
-                          In the meantime, if you have any questions, please don't hesitate to reach out to our support team at <a href="mailto:support@creculen.com" style="color: #0066cc; text-decoration: none;">support@creculen.com</a>
+                          In the meantime, if you have any questions, please don't hesitate to reach out to our support team at <a href="mailto:support@Credulen.com" style="color: #0066cc; text-decoration: none;">support@Credulen.com</a>
                       </p>
                   </td>
               </tr>
               <tr>
                   <td style="background-color: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #eee;">
                       <p style="color: #1e293b; font-size: 14px; margin: 0;">
-                          © 2024 Creculen. All rights reserved.
+                          © 2024 Credulen. All rights reserved.
                       </p>
                   </td>
               </tr>
