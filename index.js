@@ -146,7 +146,6 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       "https://www.credulen.com",
-      "https://credulen.com",
       "https://credulen-branch2-opal.vercel.app",
       "http://localhost:5173",
       "http://localhost:3000",
