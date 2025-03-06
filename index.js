@@ -134,7 +134,7 @@ app.use("/api", solutionRoutes);
 app.use("/api", joinCommunityRoutes);
 
 // Base routes
-app.get("/", (req, res) => {
+app.get("/testing", (req, res) => {
   res.json({ message: "This API is working correctly." });
 });
 
