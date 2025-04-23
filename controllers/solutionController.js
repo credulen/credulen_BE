@@ -72,7 +72,7 @@ const deleteFromCloudinary = async (url) => {
 
 const createSolution = async (req, res, next) => {
   try {
-    const { title, content, category } = req.body;
+    const { title, content, category, trainingDesc, price } = req.body;
 
     if (!title || !content) {
       return next(errorHandler(400, "Title and content are required"));
@@ -107,6 +107,8 @@ const createSolution = async (req, res, next) => {
       category: category?.trim() || "Uncategorized",
       slug,
       image: imageUrl,
+      trainingDesc: trainingDesc?.trim() || "",
+      price: price || 0,
     });
 
     const savedSolution = await newSolution.save();
@@ -159,6 +161,7 @@ const getAllSolutions = async (req, res, next) => {
 
     // Execute main query with pagination
     const solutions = await Solution.find(query)
+      .select("title content category slug image trainingDesc price")
       .sort({ updatedAt: sortDirection })
       .skip(adjustedSkip)
       .limit(pageSize);
@@ -339,11 +342,10 @@ const getSolutionBySlug = async (req, res, next) => {
     next(error);
   }
 };
-
 const updateSolution = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const { title, content, category } = req.body;
+    const { title, content, category, trainingDesc, price } = req.body;
 
     if (!title || !content) {
       return next(errorHandler(400, "Title and content are required"));
@@ -385,6 +387,8 @@ const updateSolution = async (req, res, next) => {
         category: category?.trim() || solution.category,
         slug: newSlug,
         image: imageUrl,
+        trainingDesc: trainingDesc?.trim() || solution.trainingDesc || "",
+        price: price || solution.price || 0,
       },
       { new: true }
     );

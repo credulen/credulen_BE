@@ -40,6 +40,7 @@ const auth = async (req, res, next) => {
     // Attach user to request
     req.user = user;
     console.log("User authenticated:", user._id);
+    console.log("User:", user);
     next(); // Proceed to the next middleware/route handler
   } catch (err) {
     console.error("Token verification failed:", err.message); // Detailed error logging

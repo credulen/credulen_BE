@@ -20,6 +20,8 @@ const speakerRoutes = require("./routes/speakerRoutes.js");
 const eventsRoutes = require("./routes/eventsRoutes.js");
 const solutionRoutes = require("./routes/solutionRoutes.js");
 const joinCommunityRoutes = require("./routes/joinCommunityroutes.js");
+const PaymentRoutes = require("./routes/PaymentRoutes.js");
+const NotificationRoutes = require("./routes/NotificationRoutes.js");
 const fileUpload = require("express-fileupload");
 
 const {
@@ -132,6 +134,8 @@ app.use("/api", speakerRoutes);
 app.use("/api", eventsRoutes);
 app.use("/api", solutionRoutes);
 app.use("/api", joinCommunityRoutes);
+app.use("/api", PaymentRoutes);
+app.use("/api", NotificationRoutes);
 
 // Base routes
 app.get("/testing", (req, res) => {

@@ -1,6 +1,6 @@
 // middleware/adminMiddleware.js
 const jwt = require("jsonwebtoken");
-const UserModel = require("../models/User");
+const UserModel = require("../models/userModel");
 
 const isAdmin = async (req, res, next) => {
   try {

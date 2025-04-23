@@ -1,0 +1,286 @@
+{"level":"error","message":"Payment initiation error: SolutionForm validation failed: slug: Path `slug` is required.","stack":"ValidationError: SolutionForm validation failed: slug: Path `slug` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: SolutionForm validation failed: slug: Path `slug` is required.","stack":"ValidationError: SolutionForm validation failed: slug: Path `slug` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: SolutionForm validation failed: slug: Path `slug` is required.","stack":"ValidationError: SolutionForm validation failed: slug: Path `slug` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: SolutionForm validation failed: slug: Path `slug` is required.","stack":"ValidationError: SolutionForm validation failed: slug: Path `slug` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: SolutionForm validation failed: slug: Path `slug` is required.","stack":"ValidationError: SolutionForm validation failed: slug: Path `slug` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: Solution validation failed: createdBy: Creator is required, slug: Slug is required, content: Solution content is required, title: Solution title is required","stack":"ValidationError: Solution validation failed: createdBy: Creator is required, slug: Slug is required, content: Solution content is required, title: Solution title is required\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: Solution validation failed: createdBy: Creator is required, slug: Slug is required, content: Solution content is required, title: Solution title is required","stack":"ValidationError: Solution validation failed: createdBy: Creator is required, slug: Slug is required, content: Solution content is required, title: Solution title is required\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"level":"error","message":"Payment initiation error: Request failed with status code 401","stack":"AxiosError: Request failed with status code 401\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async initiatePaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:57:30)"}
+{"level":"error","message":"Payment initiation error: Request failed with status code 401","stack":"AxiosError: Request failed with status code 401\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async initiatePaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:57:30)"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"2rndjy1bom"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"6zbgghmddy"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"xl6z1oxs69"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"mvigamsgx8"}
+{"level":"error","message":"Payment verification error: Cannot read properties of undefined (reading 'includes')","reference":"mvigamsgx8","stack":"TypeError: Cannot read properties of undefined (reading 'includes')\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:174:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"level":"error","message":"Payment verification error: Cannot read properties of undefined (reading 'includes')","reference":"mvigamsgx8","stack":"TypeError: Cannot read properties of undefined (reading 'includes')\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:174:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"05ixn07wmd"}
+{"level":"error","message":"Payment verification error: Cannot read properties of undefined (reading 'includes')","reference":"05ixn07wmd","stack":"TypeError: Cannot read properties of undefined (reading 'includes')\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:174:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"level":"error","message":"Payment verification error: Cannot read properties of undefined (reading 'includes')","reference":"05ixn07wmd","stack":"TypeError: Cannot read properties of undefined (reading 'includes')\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:174:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"d4oykw0swd"}
+{"level":"error","message":"Payment verification error: Cannot read properties of undefined (reading 'includes')","reference":"d4oykw0swd","stack":"TypeError: Cannot read properties of undefined (reading 'includes')\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:174:37)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"94hp69l7dz"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"error","message":"Payment verification error: PaymentNotification validation failed: userId: Path `userId` is required.","reference":"94hp69l7dz","stack":"ValidationError: PaymentNotification validation failed: userId: Path `userId` is required.\n    at Document.invalidate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3312:32)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\document.js:3073:17\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\schemaType.js:1388:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"h6uxslljsu"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"h6uxslljsu","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Payment verification completed successfully","reference":"h6uxslljsu"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"h6uxslljsu","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Payment verification completed successfully","reference":"h6uxslljsu"}
+{"level":"info","message":"Payment h6uxslljsu already processed"}
+{"level":"info","message":"Payment h6uxslljsu already processed"}
+{"level":"info","message":"Payment h6uxslljsu already processed"}
+{"level":"info","message":"Payment h6uxslljsu already processed"}
+{"level":"info","message":"Payment h6uxslljsu already processed"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"zrwgpng6mh"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"zrwgpng6mh","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Payment verification completed successfully","reference":"zrwgpng6mh"}
+{"level":"info","message":"Payment zrwgpng6mh already processed"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"tomx2fp0g7"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"tomx2fp0g7","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Payment verification completed successfully","reference":"tomx2fp0g7"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"jt43rhisvm"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"jt43rhisvm","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Payment verification completed successfully","reference":"jt43rhisvm"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"level":"info","message":"Stored amount (naira) in registration"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"vn1xvgoybo"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"vn1xvgoybo","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"vn1xvgoybo","registration":{"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"vn1xvgoybo"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"level":"info","message":"Stored amount (naira) in registration"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"4v88s4a9ys"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"4v88s4a9ys","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"4v88s4a9ys","registration":{"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"4v88s4a9ys"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"zoi7ty3r3a"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"zoi7ty3r3a","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"zoi7ty3r3a","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"zoi7ty3r3a"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"i7kphrht63"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"i7kphrht63","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"i7kphrht63","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"i7kphrht63"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"op8ghg34ri","userId":"6784de30d9e79513247b85ea"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"op8ghg34ri"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"op8ghg34ri","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"op8ghg34ri","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"op8ghg34ri"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"imoho7rxou","userId":"6784de30d9e79513247b85ea"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"imoho7rxou"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"imoho7rxou","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"imoho7rxou","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"imoho7rxou"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"dgfyn7o2qb","userId":"6784de30d9e79513247b85ea"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"dgfyn7o2qb"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"dgfyn7o2qb","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"dgfyn7o2qb","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"dgfyn7o2qb"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"w90bdv264n","userId":"6784de30d9e79513247b85ea"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"w90bdv264n"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent"}
+{"level":"info","message":"Notifications created successfully","reference":"w90bdv264n","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"w90bdv264n","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"w90bdv264n"}
+{"level":"error","message":"Get payments error: Cannot populate path `solutionId` because it is not in your schema. Set the `strictPopulate` option to false to override.","stack":"StrictPopulateError: Cannot populate path `solutionId` because it is not in your schema. Set the `strictPopulate` option to false to override.\n    at getModelsMapForPopulate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\helpers\\populate\\getModelsMapForPopulate.js:50:12)\n    at populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4183:21)\n    at _populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4143:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4115:5\n    at new Promise (<anonymous>)\n    at Function.populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4114:10)\n    at model.Query._find (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\query.js:2343:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async model.Query.exec (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\query.js:4401:63)\n    at async getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:849:22)"}
+{"level":"error","message":"Get payments error: Cannot populate path `solutionId` because it is not in your schema. Set the `strictPopulate` option to false to override.","stack":"StrictPopulateError: Cannot populate path `solutionId` because it is not in your schema. Set the `strictPopulate` option to false to override.\n    at getModelsMapForPopulate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\helpers\\populate\\getModelsMapForPopulate.js:50:12)\n    at populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4183:21)\n    at _populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4143:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4115:5\n    at new Promise (<anonymous>)\n    at Function.populate (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\model.js:4114:10)\n    at model.Query._find (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\query.js:2343:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async model.Query.exec (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\query.js:4401:63)\n    at async getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:849:22)"}
+{"amount":250000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":2500,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"tjbwqenlfr"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"tjbwqenlfr"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"tjbwqenlfr","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Payment verification completed successfully","reference":"tjbwqenlfr"}
+{"amount":250000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":2500,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"l8nwq5ngwg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"l8nwq5ngwg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"l8nwq5ngwg","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"l8nwq5ngwg","registration":{"amount":2500,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-03-31T12:00:32.776Z","selectedSolution":"testing class"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"l8nwq5ngwg"}
+{"level":"error","message":"Get payments error: SolutionForm is not defined","stack":"ReferenceError: SolutionForm is not defined\n    at getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:911:27)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:47:12)"}
+{"level":"error","message":"Get payments error: SolutionForm is not defined","stack":"ReferenceError: SolutionForm is not defined\n    at getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:911:27)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:47:12)"}
+{"level":"error","message":"Get payments error: SolutionForm is not defined","stack":"ReferenceError: SolutionForm is not defined\n    at getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:911:27)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:47:12)"}
+{"level":"error","message":"Get payments error: SolutionForm is not defined","stack":"ReferenceError: SolutionForm is not defined\n    at getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:911:27)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:149:13)\n    at Route.dispatch (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\route.js:119:3)\n    at Layer.handle [as handle_request] (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:284:15\n    at Function.process_params (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:346:12)\n    at next (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:280:10)\n    at Function.handle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:175:3)\n    at router (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\express\\lib\\router\\index.js:47:12)"}
+{"amount":250000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":2500,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"jwaavxnlww"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"jwaavxnlww"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"jwaavxnlww","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"jwaavxnlww","registration":{"amount":2500,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T10:52:47.752Z","selectedSolution":"testing class"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"jwaavxnlww"}
+{"level":"info","message":"Payment jwaavxnlww already processed"}
+{"level":"info","message":"Payment jwaavxnlww already processed"}
+{"level":"info","message":"Payment jwaavxnlww already processed"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"2ebmv3vi8f"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"2ebmv3vi8f"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"2ebmv3vi8f","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"2ebmv3vi8f","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T10:56:45.459Z","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"2ebmv3vi8f"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"90egf7ihbt"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"90egf7ihbt"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"90egf7ihbt","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"90egf7ihbt","registration":{"amount":120000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-20T11:23:05.881Z","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"90egf7ihbt"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"4bnhm7lvtg"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"4bnhm7lvtg"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"4bnhm7lvtg","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"4bnhm7lvtg","registration":{"amount":250000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-20T11:33:31.423Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"4bnhm7lvtg"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"level":"info","message":"Payment 4bnhm7lvtg already processed"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"lxtb602t8a"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"lxtb602t8a"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"lxtb602t8a","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"lxtb602t8a","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T11:46:34.962Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"lxtb602t8a"}
+{"level":"warn","message":"Payment not found","reference":"perfffffff"}
+{"level":"warn","message":"Payment not found","reference":"perfffffff"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"b4ww0l25pu"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"b4ww0l25pu"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"b4ww0l25pu","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"b4ww0l25pu","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T11:49:57.351Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"b4ww0l25pu"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"fdaxxw4i4h"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"fdaxxw4i4h"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"fdaxxw4i4h","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"fdaxxw4i4h","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T12:09:27.094Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"fdaxxw4i4h"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"v2m9qwzseg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"v2m9qwzseg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"v2m9qwzseg","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"v2m9qwzseg","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T12:16:15.954Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"v2m9qwzseg"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"3pg7ozaorg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"3pg7ozaorg"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"3pg7ozaorg","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"3pg7ozaorg","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T12:25:49.847Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"3pg7ozaorg"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"9yk92z562y"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"9yk92z562y"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"level":"error","message":"Payment initiation error: read ECONNRESET","stack":"Error: read ECONNRESET\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:216:20)"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"41axvoconz"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"41axvoconz"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"41axvoconz","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"41axvoconz","registration":{"amount":250000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T12:48:45.801Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"41axvoconz"}
+{"level":"error","message":"Registration not found","registrationId":"6804ed2014a6faf0b61cb1a1"}
+{"level":"error","message":"Payment verification error: Registration not found","reference":"41axvoconz","stack":"Error: Registration not found\n    at verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:273:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"wrtzomagec"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"wrtzomagec"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"wrtzomagec","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"wrtzomagec","registration":{"amount":120000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T12:53:50.964Z","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"wrtzomagec"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"ndxqhwa8cp"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"ndxqhwa8cp"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"ndxqhwa8cp","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"ndxqhwa8cp","registration":{"amount":250000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-20T12:55:00.898Z","selectedSolution":"Business Growth Hacking with Generative AI"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"ndxqhwa8cp"}
+{"amount":12000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":120000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"8x4gl0idsb"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"8x4gl0idsb"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"8x4gl0idsb","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"8x4gl0idsb","registration":{"amount":120000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-20T13:16:34.207Z","selectedSolution":"Data Analytics"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"8x4gl0idsb"}
+{"level":"info","message":"Payment 8x4gl0idsb already processed"}
+{"level":"info","message":"Payment 8x4gl0idsb already processed"}
+{"level":"info","message":"Payment 8x4gl0idsb already processed"}
+{"level":"info","message":"Payment 8x4gl0idsb already processed"}
+{"level":"info","message":"Payment 8x4gl0idsb already processed"}
+{"level":"error","message":"Payment verification error: Request failed with status code 400","reference":"8x4gl0idsbs","stack":"AxiosError: Request failed with status code 400\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:239:26)"}
+{"level":"error","message":"Payment verification error: Request failed with status code 400","reference":"8x4gl0idsbs","stack":"AxiosError: Request failed with status code 400\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:239:26)"}
+{"amount":14000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":140000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"pedzkpon52"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment initialized successfully","reference":"pedzkpon52"}
+{"email":"petersonzoconis1@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"pedzkpon52","userId":"6784de30d9e79513247b85ea"}
+{"level":"info","message":"Registration data before response","reference":"pedzkpon52","registration":{"amount":140000,"email":"petersonzoconis1@gmail.com","paymentDate":"2025-04-20T13:23:54.939Z","selectedSolution":"Blockchain Business ModelStrategy Workshops forBusinesses"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"pedzkpon52"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"info","message":"Payment pedzkpon52 already processed"}
+{"level":"error","message":"Payment verification error: Request failed with status code 400","reference":"pedzkpon52t","stack":"AxiosError: Request failed with status code 400\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:239:26)"}
+{"level":"error","message":"Payment verification error: Request failed with status code 400","reference":"pedzkpon52t","stack":"AxiosError: Request failed with status code 400\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:239:26)"}
+{"level":"error","message":"Payment verification error: Request failed with status code 400","reference":"pedzkpon52t","stack":"AxiosError: Request failed with status code 400\n    at settle (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:2031:12)\n    at IncomingMessage.handleStreamEnd (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:3148:11)\n    at IncomingMessage.emit (node:events:536:35)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Axios.request (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\axios\\dist\\node\\axios.cjs:4258:41)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyPaystackPayment (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:239:26)"}
