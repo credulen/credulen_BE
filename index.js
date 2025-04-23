@@ -30,7 +30,7 @@ const {
   getRemindersStatus,
 } = require("./config/eventRegmail.js");
 
-// Initialize configurations
+// Initialize configuration
 dotenv.config();
 connectDB();
 
