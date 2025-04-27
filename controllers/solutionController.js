@@ -70,16 +70,79 @@ const deleteFromCloudinary = async (url) => {
   }
 };
 
+// const createSolution = async (req, res, next) => {
+//   try {
+//     const { title, content, category, trainingDesc, price } = req.body;
+
+//     if (!title || !content) {
+//       return next(errorHandler(400, "Title and content are required"));
+//     }
+
+//     const existingSolution = await Solution.findOne({ title });
+//     if (existingSolution) {
+//       return next(errorHandler(400, "Solution with same title exists"));
+//     }
+
+//     // Handle image upload to Cloudinary
+//     let imageUrl = null;
+//     if (req.files && req.files.image) {
+//       try {
+//         imageUrl = await uploadToCloudinary(req.files.image);
+//       } catch (uploadError) {
+//         return next(
+//           errorHandler(500, `Image upload failed: ${uploadError.message}`)
+//         );
+//       }
+//     }
+
+//     const slug = title
+//       .trim()
+//       .toLowerCase()
+//       .replace(/[^a-zA-Z0-9]+/g, "-")
+//       .replace(/^-+|-+$/g, "");
+
+//     const newSolution = new Solution({
+//       title: title.trim(),
+//       content: content.trim(),
+//       category: category?.trim() || "Uncategorized",
+//       slug,
+//       image: imageUrl,
+//       trainingDesc: trainingDesc?.trim() || "",
+//       price: price || 0,
+//     });
+
+//     const savedSolution = await newSolution.save();
+//     res.status(201).json({
+//       success: true,
+//       solution: savedSolution,
+//       message: "Solution created successfully",
+//     });
+//   } catch (error) {
+//     console.error("Error in createSolution:", error);
+//     next(error);
+//   }
+// };
+
 const createSolution = async (req, res, next) => {
   try {
-    const { title, content, category, trainingDesc, price } = req.body;
+    console.log("createSolution: Request body:", req.body); // Log incoming payload
+    console.log("createSolution: Files:", req.files); // Log uploaded files
 
+    const { title, content, category, trainingDesc, price, amount } = req.body;
+
+    // Validate required fields
     if (!title || !content) {
+      console.log("createSolution: Missing title or content", {
+        title,
+        content,
+      });
       return next(errorHandler(400, "Title and content are required"));
     }
 
+    // Check for existing solution
     const existingSolution = await Solution.findOne({ title });
     if (existingSolution) {
+      console.log("createSolution: Solution with title exists:", title);
       return next(errorHandler(400, "Solution with same title exists"));
     }
 
@@ -88,20 +151,24 @@ const createSolution = async (req, res, next) => {
     if (req.files && req.files.image) {
       try {
         imageUrl = await uploadToCloudinary(req.files.image);
+        console.log("createSolution: Image uploaded:", imageUrl);
       } catch (uploadError) {
+        console.error("createSolution: Image upload failed:", uploadError);
         return next(
           errorHandler(500, `Image upload failed: ${uploadError.message}`)
         );
       }
     }
 
+    // Generate slug
     const slug = title
       .trim()
       .toLowerCase()
       .replace(/[^a-zA-Z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
-    const newSolution = new Solution({
+    // Prepare solution data
+    const solutionData = {
       title: title.trim(),
       content: content.trim(),
       category: category?.trim() || "Uncategorized",
@@ -109,16 +176,28 @@ const createSolution = async (req, res, next) => {
       image: imageUrl,
       trainingDesc: trainingDesc?.trim() || "",
       price: price || 0,
-    });
+      amount: amount || price || 0, // Use provided amount, fallback to price
+    };
+    console.log("createSolution: Data to save:", solutionData);
+
+    // Validate amount
+    if (solutionData.amount === undefined || solutionData.amount === null) {
+      console.log("createSolution: Missing or invalid amount");
+      return next(errorHandler(400, "Amount is required"));
+    }
+
+    const newSolution = new Solution(solutionData);
 
     const savedSolution = await newSolution.save();
+    console.log("createSolution: Solution saved:", savedSolution);
+
     res.status(201).json({
       success: true,
       solution: savedSolution,
       message: "Solution created successfully",
     });
   } catch (error) {
-    console.error("Error in createSolution:", error);
+    console.error("createSolution: Error:", error);
     next(error);
   }
 };

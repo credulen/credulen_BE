@@ -292,3 +292,11 @@
 {"level":"info","message":"Notifications created successfully","reference":"2rhspapff6","userId":"672a2851554b1ddcf969117f"}
 {"level":"info","message":"Registration data before response","reference":"2rhspapff6","registration":{"amount":120000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-23T10:47:22.733Z","selectedSolution":"Data Analytics"}}
 {"level":"info","message":"Payment verification completed successfully","reference":"2rhspapff6"}
+{"amount":22500000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":225000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"12utmzgag8"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"12utmzgag8"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"12utmzgag8","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"12utmzgag8","registration":{"amount":225000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-04-27T07:10:03.953Z","selectedSolution":"Blockchain Data Science"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"12utmzgag8"}
