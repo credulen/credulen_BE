@@ -1,1 +1,29 @@
- 
+ {"amount":30000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":300000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"ovkhlwd0w5"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"ovkhlwd0w5"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"ovkhlwd0w5","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Registration data before response","reference":"ovkhlwd0w5","registration":{"amount":300000,"email":"petersonzoconis@gmail.com","paymentDate":"2025-05-17T15:54:13.019Z","selectedSolution":"Blockchain Data Engineering"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"ovkhlwd0w5"}
+{"amount":30000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":300000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"z021qyiqgc"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"z021qyiqgc"}
+{"amount":25000000,"level":"info","message":"Received amount (kobo) for payment initiation"}
+{"amount":250000,"level":"info","message":"Stored amount (naira) in registration"}
+{"email":"uchepaulpault2@gmail.com","level":"info","message":"New user created during payment initiation"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"rr6550pn0l"}
+{"email":"uchepaulpault2@gmail.com","level":"info","message":"Payment initialized successfully","reference":"rr6550pn0l"}
+{"amountInKobo":20000000,"level":"info","message":"Using amount (kobo) for payment initiation"}
+{"amount":200000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"yakrwxhena"}
+{"email":"uchepaulpault2@gmail.com","level":"info","message":"Payment initialized successfully","reference":"yakrwxhena"}
+{"email":"uchepaulpault2@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"yakrwxhena","userId":"6829f03f0b9796da9c32efe4"}
+{"level":"info","message":"Registration data before response","reference":"yakrwxhena","registration":{"amount":200000,"email":"uchepaulpault2@gmail.com","paymentDate":"2025-05-18T14:40:47.488Z","selectedSolution":"Top Tips and Tricks with Tailwind CSS"}}
+{"level":"info","message":"Payment verification completed successfully","reference":"yakrwxhena"}
+{"amountInKobo":15000000,"level":"info","message":"Using amount (kobo) for payment initiation"}
+{"amount":150000,"level":"info","message":"Stored amount (naira) in registration"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"iqi499he8u"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"iqi499he8u"}
