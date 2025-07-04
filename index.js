@@ -23,6 +23,8 @@ const joinCommunityRoutes = require("./routes/joinCommunityroutes.js");
 const PaymentRoutes = require("./routes/PaymentRoutes.js");
 const NotificationRoutes = require("./routes/NotificationRoutes.js");
 const FreeClassRoutes = require("./routes/FreeClassRoutes.js");
+const webinarPaymentRoute = require("./routes/webinarPaymentRoute.js");
+
 const fileUpload = require("express-fileupload");
 
 const {
@@ -138,6 +140,7 @@ app.use("/api", joinCommunityRoutes);
 app.use("/api", PaymentRoutes);
 app.use("/api", NotificationRoutes);
 app.use("/api", FreeClassRoutes);
+app.use("/api", webinarPaymentRoute);
 
 // Base routes
 app.get("/testing", (req, res) => {
