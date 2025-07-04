@@ -332,6 +332,26 @@ const verifyWebinarPayment = async (req, res) => {
       email: webinarPayment.email,
     });
 
+    // Send notification email to app owner
+    const ownerMailOptions = {
+      from: process.env.EMAIL_USER,
+      to: "Credulen@gmail.com",
+
+      subject: "New Webinar Payment Confirmed",
+      html: `<p>A new payment has been confirmed:</p><ul><li>Name: ${
+        webinarPayment.firstName
+      } ${webinarPayment.lastName}</li><li>Email: ${
+        webinarPayment.email
+      }</li><li>Webinar: ${
+        webinarPayment.webinarTitle
+      }</li><li>Amount: ₦${webinarPayment.amount.toLocaleString()}</li><li>Reference: ${
+        webinarPayment.paymentReference
+      }</li></ul>`,
+    };
+
+    await transporter.sendMail(ownerMailOptions);
+    logger.info("Notification email sent to app owner");
+
     res.json({
       success: true,
       data: {
@@ -386,8 +406,60 @@ const getWebinarBySlug = async (req, res) => {
   }
 };
 
+const getAllWebinarPayments = async (req, res) => {
+  try {
+    const payments = await WebinarPayment.find().lean();
+    if (!payments.length) {
+      logger.warn("No webinar payments found");
+      return res
+        .status(404)
+        .json({ success: false, message: "No payments found" });
+    }
+    res.json({ success: true, data: payments });
+  } catch (error) {
+    logger.error(`Fetch all payments error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch payments",
+      error: error.message,
+    });
+  }
+};
+
+const deleteWebinarPayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      logger.warn("Missing payment ID for deletion");
+      return res
+        .status(400)
+        .json({ success: false, message: "Payment ID is required" });
+    }
+
+    const payment = await WebinarPayment.findByIdAndDelete(id);
+    if (!payment) {
+      logger.warn("Payment not found for deletion", { id });
+      return res
+        .status(404)
+        .json({ success: false, message: "Payment not found" });
+    }
+
+    logger.info("Webinar payment deleted successfully", { id });
+    res.json({ success: true, message: "Payment deleted successfully" });
+  } catch (error) {
+    logger.error(`Delete payment error: ${error.message}`);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete payment",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   initiateWebinarPayment,
   verifyWebinarPayment,
   getWebinarBySlug,
+  getAllWebinarPayments,
+  deleteWebinarPayment,
 };
