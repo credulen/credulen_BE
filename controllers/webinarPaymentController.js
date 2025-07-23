@@ -336,7 +336,6 @@ const verifyWebinarPayment = async (req, res) => {
     const ownerMailOptions = {
       from: process.env.EMAIL_USER,
       to: "Credulen@gmail.com",
-
       subject: "New Webinar Payment Confirmed",
       html: `<p>A new payment has been confirmed:</p><ul><li>Name: ${
         webinarPayment.firstName
