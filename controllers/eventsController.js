@@ -381,13 +381,100 @@ const getRelatedEvents = async (req, res, next) => {
   }
 };
 
+// const registerEvent = async (req, res) => {
+//   try {
+//     const {
+//       fullName,
+//       email,
+//       company,
+//       reason,
+//       eventTitle,
+//       eventCategory,
+//       slug,
+//     } = req.body;
+
+//     // Check for existing registration
+//     const existingRegistration = await EventRegistration.findOne({
+//       email,
+//       slug,
+//     });
+
+//     if (existingRegistration) {
+//       return res
+//         .status(400)
+//         .json({ message: "You are already registered for this event." });
+//     }
+
+//     // Create a new registration
+//     const newRegistration = new EventRegistration({
+//       fullName,
+//       email,
+//       company,
+//       reason,
+//       eventTitle,
+//       eventCategory,
+//       slug,
+//     });
+
+//     // Save the registration
+//     await newRegistration.save();
+
+//     // Fetch the event details to check the date
+//     const event = await Event.findOne({ slug })
+//       .populate("organizer", "name image") // Populate organizer details
+//       .populate("speakers", "name image bio"); // Populate speakers details
+
+//     if (!event) {
+//       return res.status(404).json({ message: "Event not found." });
+//     }
+
+//     // Check if the event date is in the future
+//     const eventDate = new Date(event.date);
+//     const now = new Date();
+
+//     if (eventDate > now) {
+//       // Send confirmation email
+//       try {
+//         await sendEventConfirmationEmail({
+//           fullName,
+//           email,
+//           eventTitle,
+//           eventCategory,
+//           venue: event.venue, // Pass venue
+//           meetingId: event.meetingId, // Pass meeting ID
+//           passcode: event.passcode, // Pass passcode
+//           duration: event.duration, // Pass duration
+//           meetingLink: event.meetingLink, // Pass meeting link
+//           eventDate: event.date, // Pass event date
+//         });
+//       } catch (emailError) {
+//         console.error("Failed to send confirmation email:", emailError);
+//         // Optionally, you can log this error or handle it as needed
+//       }
+//     }
+
+//     // Send success response
+//     res.status(201).json({ message: "Registration successful" });
+//   } catch (error) {
+//     console.error("Error registering for event:", error);
+//     res
+//       .status(500)
+//       .json({ message: "An error occurred while registering for the event" });
+//   }
+// };
+
 const registerEvent = async (req, res) => {
   try {
     const {
       fullName,
       email,
+      mobileNumber,
+      countryOfResidence,
+      careerStatus,
+      interestAndAim,
+      managesImmigrantCommunity,
       company,
-      reason,
+      reason, // Retained for backward compatibility, can be removed if redundant
       eventTitle,
       eventCategory,
       slug,
@@ -409,8 +496,12 @@ const registerEvent = async (req, res) => {
     const newRegistration = new EventRegistration({
       fullName,
       email,
+      mobileNumber,
+      countryOfResidence,
+      careerStatus,
+      interestAndAim,
+      managesImmigrantCommunity,
       company,
-      reason,
       eventTitle,
       eventCategory,
       slug,
@@ -421,8 +512,8 @@ const registerEvent = async (req, res) => {
 
     // Fetch the event details to check the date
     const event = await Event.findOne({ slug })
-      .populate("organizer", "name image") // Populate organizer details
-      .populate("speakers", "name image bio"); // Populate speakers details
+      .populate("organizer", "name image")
+      .populate("speakers", "name image bio");
 
     if (!event) {
       return res.status(404).json({ message: "Event not found." });
@@ -433,23 +524,24 @@ const registerEvent = async (req, res) => {
     const now = new Date();
 
     if (eventDate > now) {
-      // Send confirmation email
+      // Send confirmation email with updated fields
       try {
         await sendEventConfirmationEmail({
           fullName,
           email,
+          mobileNumber, // Added to email
+          countryOfResidence, // Added to email
           eventTitle,
           eventCategory,
-          venue: event.venue, // Pass venue
-          meetingId: event.meetingId, // Pass meeting ID
-          passcode: event.passcode, // Pass passcode
-          duration: event.duration, // Pass duration
-          meetingLink: event.meetingLink, // Pass meeting link
-          eventDate: event.date, // Pass event date
+          venue: event.venue,
+          meetingId: event.meetingId,
+          passcode: event.passcode,
+          duration: event.duration,
+          meetingLink: event.meetingLink,
+          eventDate: event.date,
         });
       } catch (emailError) {
         console.error("Failed to send confirmation email:", emailError);
-        // Optionally, you can log this error or handle it as needed
       }
     }
 
