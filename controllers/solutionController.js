@@ -83,6 +83,7 @@ const createSolution = async (req, res, next) => {
       category,
       trainingDesc,
       price,
+      GBPrate,
       discountPercentage,
       isAllLevels,
       isExpertLed,
@@ -154,6 +155,7 @@ const createSolution = async (req, res, next) => {
       image: imageUrl,
       trainingDesc: trainingDesc?.trim() || "",
       price: parsedPrice,
+      GBPrate: GBPrate || 0,
       discountPercentage: parsedDiscount || 0,
       isAllLevels: isAllLevels || "Designed for All Levels",
       isExpertLed: isExpertLed || "Expert-Led Content",
@@ -371,7 +373,7 @@ const deleteSolutionsByType = async (req, res, next) => {
 const getSolutionBySlug = async (req, res, next) => {
   try {
     const solution = await Solution.findOne({ slug: req.params.slug }).select(
-      "title content category slug image trainingDesc price amount discountPercentage isAllLevels isExpertLed duration isOnline prerequisites"
+      "title content category slug image trainingDesc price amount discountPercentage isAllLevels isExpertLed duration isOnline prerequisites GBPrate"
     );
 
     if (!solution) {
@@ -392,6 +394,7 @@ const updateSolution = async (req, res, next) => {
       category,
       trainingDesc,
       price,
+      GBPrate,
       discountPercentage,
       isAllLevels,
       isExpertLed,
@@ -456,6 +459,7 @@ const updateSolution = async (req, res, next) => {
     solution.image = imageUrl;
     solution.trainingDesc = trainingDesc?.trim() || solution.trainingDesc || "";
     solution.price = parsedPrice;
+    solution.GBPrate = GBPrate || solution.GBPrate;
     solution.discountPercentage = parsedDiscount;
     solution.isAllLevels = isAllLevels || solution.isAllLevels;
     solution.isExpertLed = isExpertLed || solution.isExpertLed;

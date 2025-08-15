@@ -30,7 +30,8 @@ const solutionSchema = new mongoose.Schema(
       min: [0, "Price cannot be negative"],
       default: 0,
     },
-    amount: { type: Number }, // Removed required: true to allow updates without explicit amount
+    amount: { type: Number },
+    GBPrate: { type: Number },
     discountPercentage: {
       type: Number,
       default: 0, // No discount by default
