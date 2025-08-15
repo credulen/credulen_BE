@@ -89,3 +89,30 @@
 {"id":"6867c42efd1f4b01b763c092","level":"info","message":"Webinar payment deleted successfully"}
 {"email":"petersonzoconis@gmail.com","level":"info","message":"Payment confirmation email sent"}
 {"level":"info","message":"Notification email sent to app owner"}
+{"finalAmountInKobo":14250000,"finalAmountInNaira":142500,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":285000,"voucherCode":"CREDNOVPRO25"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"vld6ig64x6"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"vld6ig64x6"}
+{"finalAmountInKobo":28500000,"finalAmountInNaira":285000,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":285000,"voucherCode":"none"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"ffl9mix9vk"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"ffl9mix9vk"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"ffl9mix9vk","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Payment verification completed successfully","reference":"ffl9mix9vk"}
+{"code":"ECONNRESET","errno":-4077,"level":"error","message":"Error getting discounted amount: read ECONNRESET","stack":"Error: read ECONNRESET\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:216:20)","syscall":"read"}
+{"code":"ECONNRESET","errno":-4077,"level":"error","message":"Error getting discounted amount: read ECONNRESET","stack":"Error: read ECONNRESET\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:216:20)","syscall":"read"}
+{"finalAmountInKobo":10000000,"finalAmountInNaira":100000,"level":"info","message":"Payment initiation amounts","originalAmount":200000,"solutionDiscountedAmount":200000,"voucherCode":"CREDNOVPRO25"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"5jcmgf71p6"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"5jcmgf71p6"}
+{"finalAmountInKobo":10000000,"finalAmountInNaira":100000,"level":"info","message":"Payment initiation amounts","originalAmount":200000,"solutionDiscountedAmount":200000,"voucherCode":"CREDNOVPRO25"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"xeg3j030xx"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"xeg3j030xx"}
+{"level":"info","message":"Voucher usage incremented","voucherCode":"CREDNOVPRO25"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
+{"level":"info","message":"Notifications created successfully","reference":"xeg3j030xx","userId":"672a2851554b1ddcf969117f"}
+{"level":"info","message":"Payment verification completed successfully","reference":"xeg3j030xx"}
+{"finalAmountInKobo":10000000,"finalAmountInNaira":100000,"level":"info","message":"Payment initiation amounts","originalAmount":200000,"solutionDiscountedAmount":200000,"voucherCode":"CREDNOVPRO25"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"a552b72ozf"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"a552b72ozf"}
+{"finalAmountInKobo":20000000,"finalAmountInNaira":200000,"level":"info","message":"Payment initiation amounts","originalAmount":200000,"solutionDiscountedAmount":200000,"voucherCode":"none"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"x69s876rn7"}
+{"email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"x69s876rn7"}

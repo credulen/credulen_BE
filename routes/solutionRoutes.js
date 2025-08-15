@@ -18,6 +18,13 @@ const {
   NewLetterSubscribe,
   getNewsletterSubscribers,
   registerForSolution,
+  // vouchers
+  createVoucher,
+  getAllVouchers,
+  getVoucherByCode,
+  getVoucherById,
+  updateVoucher,
+  deleteVoucher,
 } = require("../controllers/solutionController");
 
 // Middleware for file type validation
@@ -66,5 +73,12 @@ router.delete("/deleteSolutionsByType", deleteSolutionsByType);
 router.post("/newsletter-signup", NewLetterSubscribe);
 router.get("/getNewsletterSubscribers", getNewsletterSubscribers);
 router.post("/registerForSolution", registerForSolution);
+// Vouchers
+router.post("/createVoucher", createVoucher);
+router.get("/getAllVouchers", getAllVouchers);
+router.get("/getVoucherById/:id", getVoucherById);
+router.post("/getVoucherByCode/:id", getVoucherByCode);
+router.put("/updateVoucher/:id", updateVoucher);
+router.delete("/deleteVoucher/:id", deleteVoucher);
 
 module.exports = router;

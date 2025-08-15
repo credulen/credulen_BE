@@ -2,6 +2,7 @@ const Solution = require("../models/solutionModel.js");
 const SolutionForm = require("../models/solutionFormModel.js");
 const ConsultingServiceForm = require("../models/consultingServiceBookingModel.js");
 const NewsletterSubscription = require("../models/NewsLetterModel.js");
+const Voucher = require("../models/voucherModel.js");
 const { errorHandler } = require("../middlewares/errorHandling.js");
 const moment = require("moment");
 const cloudinary = require("cloudinary").v2;
@@ -776,6 +777,160 @@ const getConsultingServiceForms = async (req, res, next) => {
   }
 };
 
+// Solution Vouchers
+
+// Create Voucher
+// Create Voucher
+const createVoucher = async (req, res, next) => {
+  try {
+    const {
+      code,
+      discountType,
+      discountValue,
+      expiryDate,
+      usageLimit,
+      oncePerUser,
+      applicableItems,
+      applicableEmails,
+      minCartAmount,
+      forNewUsers,
+    } = req.body;
+
+    // Validate required fields
+    if (!code || !discountType || !discountValue || !expiryDate) {
+      return next(errorHandler(400, "Required fields are missing"));
+    }
+
+    const newVoucher = new Voucher({
+      code: code.toUpperCase(),
+      discountType,
+      discountValue,
+      expiryDate,
+      usageLimit,
+      oncePerUser,
+      applicableItems: applicableItems || [],
+      applicableEmails: (applicableEmails || []).map((email) =>
+        email.toLowerCase().trim()
+      ),
+      minCartAmount,
+      forNewUsers,
+    });
+
+    await newVoucher.save();
+    res.status(201).json(newVoucher);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update Voucher
+const updateVoucher = async (req, res, next) => {
+  try {
+    const voucher = await Voucher.findById(req.params.id);
+    if (!voucher) {
+      return next(errorHandler(404, "Voucher not found"));
+    }
+
+    const updatedData = {
+      ...req.body,
+      code: req.body.code ? req.body.code.toUpperCase() : voucher.code,
+      applicableItems: req.body.applicableItems || voucher.applicableItems,
+      applicableEmails: req.body.applicableEmails
+        ? req.body.applicableEmails.map((email) => email.toLowerCase().trim())
+        : voucher.applicableEmails,
+    };
+
+    const updatedVoucher = await Voucher.findByIdAndUpdate(
+      req.params.id,
+      updatedData,
+      { new: true }
+    );
+    res.status(200).json(updatedVoucher);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get All Vouchers (with pagination similar to getAllSolutions)
+const getAllVouchers = async (req, res, next) => {
+  try {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+
+    const query = {};
+    if (req.query.searchTerm) {
+      query.code = { $regex: req.query.searchTerm, $options: "i" };
+    }
+
+    const vouchers = await Voucher.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("applicableItems", "title");
+
+    const totalVouchers = await Voucher.countDocuments(query);
+
+    res.status(200).json({
+      vouchers,
+      totalVouchers,
+      currentPage: page,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get Voucher by ID
+const getVoucherByCode = async (req, res, next) => {
+  try {
+    const voucher = await Voucher.findOne({ code: req.body.code }).populate(
+      "applicableItems",
+      "title"
+    );
+    if (!voucher) {
+      return res.status(404).json({ message: "Voucher not found" });
+    }
+
+    res.status(200).json(voucher);
+  } catch (error) {
+    next(error);
+  }
+};
+// Get Voucher by ID
+const getVoucherById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    console.log("Searching for voucher with id:", id); // Debug log
+    const voucher = await Voucher.findById(id).populate(
+      "applicableItems",
+      "title"
+    );
+
+    if (!voucher) {
+      console.log("Voucher not found for id:", id); // Debug log
+      return res.status(404).json({ message: "Voucher not found" });
+    }
+    res.status(200).json(voucher);
+  } catch (error) {
+    console.error("Error in getVoucherById:", error);
+    next(error); // Pass to error middleware
+  }
+};
+
+// Delete Voucher
+const deleteVoucher = async (req, res, next) => {
+  try {
+    const voucher = await Voucher.findByIdAndDelete(req.params.id);
+    if (!voucher) {
+      return next(errorHandler(404, "Voucher not found"));
+    }
+    res.status(200).json({ message: "Voucher deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createSolution,
   getAllSolutions,
@@ -790,4 +945,11 @@ module.exports = {
   getNewsletterSubscribers,
   registerForSolution,
   getConsultingServiceForms,
+  // Vouchers
+  createVoucher,
+  getAllVouchers,
+  getVoucherById,
+  getVoucherByCode,
+  updateVoucher,
+  deleteVoucher,
 };

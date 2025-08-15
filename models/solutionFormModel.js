@@ -73,6 +73,9 @@ const solutionFormSchema = new mongoose.Schema(
       },
     },
 
+    voucherCode: { type: String, default: "" },
+    finalAmount: { type: Number, default: 0 },
+
     companyName: { type: String },
     companyIndustry: { type: String },
     companySize: {
@@ -81,6 +84,7 @@ const solutionFormSchema = new mongoose.Schema(
     },
     country: { type: String },
   },
+
   {
     timestamps: true,
     toJSON: { virtuals: true },
