@@ -336,11 +336,13 @@ const userUpdateSchema = z.object({
   bio: z.string().max(500, "Bio must be 500 characters or less").optional(),
   phoneNumber: z
     .string()
-    .regex(
-      /^[+\d\s-]{10,15}$/,
-      "Phone number must be 10-15 characters, allowing digits, +, -, and spaces"
-    )
-    .optional(),
+    .optional()
+    .refine(
+      (val) => val === "" || /^[+\d\s-]{10,15}$/.test(val),
+      (val) => ({
+        message: `Phone number "${val}" must be empty or 10-15 characters, allowing digits, +, -, and spaces`,
+      })
+    ),
   agentId: z
     .string()
     .regex(
