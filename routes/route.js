@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   login,
   registerUser,
+  convertToAgent,
   registerAdmin,
   verifyAdminOTP,
   forgotPassword,
@@ -14,6 +15,7 @@ const { body, validationResult } = require("express-validator");
 
 // Define routes without error handling
 router.route("/register").post(registerUser);
+router.route("/convertToAgent").post(convertToAgent);
 router.route("/registerAdmin").post(registerAdmin);
 router.route("/registerMail").post(registerMail);
 router.route("/login").post(login);

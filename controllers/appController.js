@@ -77,48 +77,242 @@ const generateToken = (userId) => {
   return token;
 };
 
-// Register User
-const registerUser = async (req, res) => {
-  const { email, password, username } = req.body;
+// / Middleware to check if requester is admin
+const requireAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== "admin") {
+    return res.status(403).json({ message: "Admin access required" });
+  }
+  next();
+};
+
+// Convert user to agent by email
+const convertToAgent = async (req, res) => {
+  const { email } = req.body;
 
   try {
+    if (!email || !require("validator").isEmail(email)) {
+      return res.status(400).json({ message: "Valid email is required" });
+    }
+
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.role !== "user" || user.agentId) {
+      return res
+        .status(400)
+        .json({ message: "User is not eligible to become an agent" });
+    }
+
+    // Generate unique agentId (10-character uppercase hex)
+    let agentId;
+    let isUnique = false;
+    while (!isUnique) {
+      agentId = crypto.randomBytes(5).toString("hex").toUpperCase();
+      const existing = await UserModel.findOne({ agentId });
+      if (!existing) isUnique = true;
+    }
+
+    user.role = "agent";
+    user.agentId = agentId;
+    await user.save();
+
+    console.log(`User ${user._id} converted to agent with ID: ${agentId}`);
+    res.status(200).json({
+      message: "User successfully converted to agent",
+      agentId,
+      user: {
+        _id: user._id,
+        email: user.email,
+        username: user.username,
+        role: user.role,
+        agentId: user.agentId,
+      },
+    });
+  } catch (error) {
+    console.error("Error converting user to agent:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+// Register User
+// const registerUser = async (req, res) => {
+//   const { email, password, username } = req.body;
+//   const { agentId: agentCode } = req.query;
+//   try {
+//     if (!validator.isEmail(email)) {
+//       return res.status(400).json({ message: "Invalid email format" });
+//     }
+
+//     if (!password || !username) {
+//       return res.status(400).json({ message: "All fields are required" });
+//     }
+
+//     const passwordRegex = /^.{6,}$/;
+//     if (!passwordRegex.test(password)) {
+//       return res
+//         .status(400)
+//         .json({ message: "Password must be at least 6 digits long" });
+//     }
+
+//     const existingUser = await UserModel.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "Existing User with this Email" });
+//     }
+
+//     const existingUserName = await UserModel.findOne({ username });
+//     if (existingUserName) {
+//       return res
+//         .status(400)
+//         .json({ message: "Existing User with this Username" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     let referredBy = null;
+//     if (agentCode) {
+//       const agent = await UserModel.findOne({
+//         agentId: agentCode,
+//         role: "agent",
+//       });
+//       if (agent) {
+//         referredBy = agent._id;
+//         // Optionally, push to agent's referrals array
+//         agent.referrals.push(newUser._id); // But newUser not saved yet, so do after save
+//       } else {
+//         console.log(`Invalid agent code: ${agentCode}`);
+//       }
+//     }
+
+//     const newUser = new UserModel({
+//       email,
+//       password: hashedPassword,
+//       username,
+//       role: "user",
+//       referredBy,
+//     });
+
+//     await newUser.save();
+//     if (referredBy) {
+//       await UserModel.findByIdAndUpdate(referredBy, {
+//         $push: { referrals: newUser._id },
+//       });
+//     }
+
+//     const token = generateToken(newUser._id);
+
+//     console.log("User registered:", newUser._id);
+//     res.status(201).json({
+//       token,
+//       user: {
+//         _id: newUser._id,
+//         email: newUser.email,
+//         username: newUser.username,
+//         role: newUser.role,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error during registration:", error.message);
+//     if (error.code === 11000) {
+//       return res.status(400).json({ message: "User already exists" });
+//     }
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+const registerUser = async (req, res) => {
+  const { email, password, username, agentCode: bodyAgentCode } = req.body;
+  const { agentId: queryAgentCode } = req.query;
+  const agentCode = queryAgentCode || bodyAgentCode; // Prioritize query parameter
+
+  try {
+    // Validate email
     if (!validator.isEmail(email)) {
       return res.status(400).json({ message: "Invalid email format" });
     }
 
+    // Validate required fields
     if (!password || !username) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res
+        .status(400)
+        .json({ message: "Username and password are required" });
     }
 
+    // Validate password
     const passwordRegex = /^.{6,}$/;
     if (!passwordRegex.test(password)) {
       return res
         .status(400)
-        .json({ message: "Password must be at least 6 digits long" });
+        .json({ message: "Password must be at least 6 characters long" });
     }
 
+    // Validate agentCode if provided
+    if (agentCode && !/^[a-zA-Z0-9]{5,15}$/.test(agentCode)) {
+      console.log(`Invalid agent code format: ${agentCode}`);
+      return res
+        .status(400)
+        .json({ message: "Agent code must be 5-15 alphanumeric characters" });
+    }
+
+    // Check for existing user
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: "Existing User with this Email" });
+      return res.status(400).json({ message: "Email already in use" });
     }
 
     const existingUserName = await UserModel.findOne({ username });
     if (existingUserName) {
-      return res
-        .status(400)
-        .json({ message: "Existing User with this Username" });
+      return res.status(400).json({ message: "Username already in use" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Handle referral
+    let referredBy = null;
+    if (agentCode) {
+      const agent = await UserModel.findOne({
+        agentId: { $regex: `^${agentCode}$`, $options: "i" }, // Case-insensitive
+        role: "agent",
+      });
+      if (!agent) {
+        console.log(`No agent found for agentCode: ${agentCode}`);
+        return res.status(400).json({ message: "Invalid agent code" });
+      }
+      console.log(`Agent found: ${agent._id}, agentId: ${agent.agentId}`);
+      referredBy = agent._id;
+    } else {
+      console.log("No agent code provided");
+    }
+
+    // Create new user
     const newUser = new UserModel({
       email,
       password: hashedPassword,
       username,
       role: "user",
+      referredBy,
     });
 
     await newUser.save();
+    console.log(
+      `New user saved: ${newUser._id}, referredBy: ${newUser.referredBy}`
+    );
+
+    // Update agent's referrals if applicable
+    if (referredBy) {
+      const updateResult = await UserModel.findByIdAndUpdate(
+        referredBy,
+        { $push: { referrals: newUser._id } },
+        { new: true }
+      );
+      if (!updateResult) {
+        console.error(`Failed to update referrals for agent: ${referredBy}`);
+      } else {
+        console.log(
+          `Referrals updated for agent: ${referredBy}, new referral: ${newUser._id}`
+        );
+      }
+    }
 
     const token = generateToken(newUser._id);
 
@@ -130,6 +324,7 @@ const registerUser = async (req, res) => {
         email: newUser.email,
         username: newUser.username,
         role: newUser.role,
+        referredBy: newUser.referredBy,
       },
     });
   } catch (error) {
@@ -488,6 +683,7 @@ const handleGoogleLogin = async (req, res) => {
 
 module.exports = {
   registerUser,
+  convertToAgent,
   registerAdmin,
   login,
   forgotPassword,

@@ -48,6 +48,8 @@ const solutionFormSchema = new mongoose.Schema(
     employmentStatus: { type: String },
     jobTitle: { type: String },
     selectedSolution: { type: String },
+    agentId: { type: String },
+    agentCode: { type: String },
     slug: { type: String, required: true },
     amount: { type: Number, required: true },
     paymentStatus: {

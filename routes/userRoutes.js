@@ -45,13 +45,13 @@ const validateFileType = (req, res, next) => {
 };
 
 // Define routes with proper method chaining
-router.route("/Users").get(getAllProfiles);
+// router.route("/Users").get(getAllProfiles);
 router.route("/Users/:userId").get(getProfileById);
 // router.route("/Users/:userId").put, updateProfile);
 router.put("/Users/:userId", validateFileType, updateProfile);
 router.route("/Delete/:userId").delete(deleteUserById);
 
 router.route("/getUsers").get(getUsers);
-router.route("/getUsers/:userId").get(getUserById);
+// router.route("/getUsers/:userId").get(getUserById);
 
 module.exports = router;

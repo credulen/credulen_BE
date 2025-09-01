@@ -14,6 +14,32 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
     },
+    fullName: {
+      type: String,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    bio: {
+      type: String,
+    },
+    agentId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows multiple null values
+    },
+    referredBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    // Optionally, add referrals array for easier querying (reverse relation)
+    referrals: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
 
     googleId: {
       type: String,
@@ -43,10 +69,11 @@ const UserSchema = new mongoose.Schema(
     image: {
       type: String, // URL of the user's profile image
     },
-    role: { type: String, enum: ["admin", "user"], default: "user" },
+    role: { type: String, enum: ["admin", "user", "agent"], default: "user" },
     resetPasswordToken: { type: String }, // Field to store the reset token
     resetPasswordExpires: { type: Date },
   },
+
   {
     timestamps: true,
   }
