@@ -9,8 +9,15 @@ const eventSchema = new mongoose.Schema({
   eventType: {
     type: String,
     required: true,
-    enum: ["conference", "workshop", "seminar", "webinar", "other"],
+    enum: ["conference", "workshop", "seminar", "webinar", "podcast", "other"],
   },
+
+  subCategory: {
+    type: String,
+    enum: ["General", "Executive (B2B)", "others"],
+    default: "others",
+  },
+
   image: {
     type: String,
     default: null,

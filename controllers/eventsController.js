@@ -67,12 +67,12 @@ const deleteFromCloudinary = async (url) => {
 
 const { sendEventConfirmationEmail } = require("../config/eventRegmail");
 
-// Create a new event
 const createEvent = async (req, res, next) => {
   try {
     const {
       title,
       eventType,
+      subCategory,
       description,
       videoUrl,
       category,
@@ -127,6 +127,7 @@ const createEvent = async (req, res, next) => {
     const newEvent = new Event({
       title,
       eventType,
+      subCategory,
       content: description,
       category,
       videoUrl,
@@ -147,6 +148,148 @@ const createEvent = async (req, res, next) => {
   } catch (error) {
     console.error("Error in createEvent:", error);
     next(error);
+  }
+};
+
+const updateEvent = async (req, res, next) => {
+  try {
+    const { eventId } = req.params;
+    const {
+      title,
+      eventType,
+      subCategory,
+      description,
+      videoUrl,
+      category,
+      date,
+      meetingId,
+      passcode,
+      duration,
+      meetingLink,
+      venue,
+      speakers,
+    } = req.body;
+
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return next(errorHandler(404, "Event not found"));
+    }
+
+    // Handle image update
+    let imageUrl = event.image;
+    if (req.files && req.files.image) {
+      try {
+        // Delete old image if it exists
+        if (event.image) {
+          await deleteFromCloudinary(event.image);
+        }
+        // Upload new image
+        imageUrl = await uploadToCloudinary(req.files.image);
+      } catch (uploadError) {
+        return next(
+          errorHandler(500, `Image upload failed: ${uploadError.message}`)
+        );
+      }
+    }
+
+    const slug = title
+      .split(" ")
+      .join("-")
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9-]/g, "");
+
+    // Parse speakers array if it's a string
+    let parsedSpeakers = speakers;
+    if (typeof speakers === "string") {
+      try {
+        parsedSpeakers = JSON.parse(speakers);
+      } catch (error) {
+        console.error("Error parsing speakers:", error);
+        return next(errorHandler(400, "Invalid speakers format"));
+      }
+    }
+
+    // Verify that all speaker IDs are valid
+    if (parsedSpeakers && parsedSpeakers.length > 0) {
+      const validSpeakers = await Speaker.find({
+        _id: { $in: parsedSpeakers },
+      });
+      if (validSpeakers.length !== parsedSpeakers.length) {
+        return next(errorHandler(400, "One or more speaker IDs are invalid"));
+      }
+    }
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      eventId,
+      {
+        title,
+        eventType,
+        subCategory,
+        content: description,
+        category,
+        videoUrl,
+        date,
+        venue,
+        meetingId,
+        passcode,
+        duration,
+        meetingLink,
+        image: imageUrl,
+        slug,
+        speakers: parsedSpeakers,
+        updatedAt: Date.now(),
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedEvent);
+  } catch (error) {
+    console.error("Error in updateEvent:", error);
+    next(error);
+  }
+};
+
+const getRelatedEvents = async (req, res, next) => {
+  try {
+    const { category, subCategory, currentEventId } = req.query;
+    console.log("Received query params:", {
+      category,
+      subCategory,
+      currentEventId,
+    });
+
+    if (!category || !currentEventId) {
+      console.error("Missing required parameters:", {
+        category,
+        subCategory,
+        currentEventId,
+      });
+      return res
+        .status(400)
+        .json({ error: "Category and current event ID are required" });
+    }
+
+    const relatedEvents = await Event.find({
+      $or: [
+        { category: category },
+        { eventType: category },
+        { subCategory: subCategory },
+      ],
+      _id: { $ne: currentEventId },
+    })
+      .select(
+        "title content image slug eventType subCategory date venue videoUrl"
+      )
+      .limit(4)
+      .populate("organizer", "name image");
+
+    console.log(`Found ${relatedEvents.length} related events`);
+
+    res.status(200).json(relatedEvents);
+  } catch (error) {
+    console.error("Error in getRelatedEvents:", error);
+    console.error("Stack trace:", error.stack);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
@@ -227,103 +370,6 @@ const getEventBySlug = async (req, res, next) => {
   }
 };
 
-// Update an event
-const updateEvent = async (req, res, next) => {
-  try {
-    const { eventId } = req.params;
-    const {
-      title,
-      eventType,
-      description,
-      videoUrl,
-      category,
-      date,
-      meetingId,
-      passcode,
-      duration,
-      meetingLink,
-      venue,
-      speakers,
-    } = req.body;
-
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return next(errorHandler(404, "Event not found"));
-    }
-
-    // Handle image update
-    let imageUrl = event.image;
-    if (req.files && req.files.image) {
-      try {
-        // Delete old image if it exists
-        if (event.image) {
-          await deleteFromCloudinary(event.image);
-        }
-        // Upload new image
-        imageUrl = await uploadToCloudinary(req.files.image);
-      } catch (uploadError) {
-        return next(
-          errorHandler(500, `Image upload failed: ${uploadError.message}`)
-        );
-      }
-    }
-
-    const slug = title
-      .split(" ")
-      .join("-")
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9-]/g, "");
-
-    // Parse speakers array if it's a string
-    let parsedSpeakers = speakers;
-    if (typeof speakers === "string") {
-      try {
-        parsedSpeakers = JSON.parse(speakers);
-      } catch (error) {
-        console.error("Error parsing speakers:", error);
-        return next(errorHandler(400, "Invalid speakers format"));
-      }
-    }
-
-    // Verify that all speaker IDs are valid
-    if (parsedSpeakers && parsedSpeakers.length > 0) {
-      const validSpeakers = await Speaker.find({
-        _id: { $in: parsedSpeakers },
-      });
-      if (validSpeakers.length !== parsedSpeakers.length) {
-        return next(errorHandler(400, "One or more speaker IDs are invalid"));
-      }
-    }
-
-    const updatedEvent = await Event.findByIdAndUpdate(
-      eventId,
-      {
-        title,
-        eventType,
-        content: description,
-        category,
-        videoUrl,
-        date,
-        venue,
-        meetingId,
-        passcode,
-        duration,
-        meetingLink,
-        image: imageUrl,
-        slug,
-        speakers: parsedSpeakers,
-        updatedAt: Date.now(),
-      },
-      { new: true }
-    );
-
-    res.status(200).json(updatedEvent);
-  } catch (error) {
-    console.error("Error in updateEvent:", error);
-    next(error);
-  }
-};
-
 // Delete an event
 const deleteEvent = async (req, res, next) => {
   try {
@@ -347,121 +393,6 @@ const deleteEvent = async (req, res, next) => {
     next(error);
   }
 };
-
-const getRelatedEvents = async (req, res, next) => {
-  try {
-    const { category, currentEventId } = req.query;
-    console.log("Received query params:", { category, currentEventId });
-
-    if (!category || !currentEventId) {
-      console.error("Missing required parameters:", {
-        category,
-        currentEventId,
-      });
-      return res
-        .status(400)
-        .json({ error: "Category and current event ID are required" });
-    }
-
-    const relatedEvents = await Event.find({
-      $or: [{ category: category }, { eventType: category }],
-      _id: { $ne: currentEventId },
-    })
-      .select("title content image slug eventType date venue videoUrl")
-      .limit(4)
-      .populate("organizer", "name image");
-
-    console.log(`Found ${relatedEvents.length} related events`);
-
-    res.status(200).json(relatedEvents);
-  } catch (error) {
-    console.error("Error in getRelatedEvents:", error);
-    console.error("Stack trace:", error.stack);
-    res.status(500).json({ error: "Internal server error" });
-  }
-};
-
-// const registerEvent = async (req, res) => {
-//   try {
-//     const {
-//       fullName,
-//       email,
-//       company,
-//       reason,
-//       eventTitle,
-//       eventCategory,
-//       slug,
-//     } = req.body;
-
-//     // Check for existing registration
-//     const existingRegistration = await EventRegistration.findOne({
-//       email,
-//       slug,
-//     });
-
-//     if (existingRegistration) {
-//       return res
-//         .status(400)
-//         .json({ message: "You are already registered for this event." });
-//     }
-
-//     // Create a new registration
-//     const newRegistration = new EventRegistration({
-//       fullName,
-//       email,
-//       company,
-//       reason,
-//       eventTitle,
-//       eventCategory,
-//       slug,
-//     });
-
-//     // Save the registration
-//     await newRegistration.save();
-
-//     // Fetch the event details to check the date
-//     const event = await Event.findOne({ slug })
-//       .populate("organizer", "name image") // Populate organizer details
-//       .populate("speakers", "name image bio"); // Populate speakers details
-
-//     if (!event) {
-//       return res.status(404).json({ message: "Event not found." });
-//     }
-
-//     // Check if the event date is in the future
-//     const eventDate = new Date(event.date);
-//     const now = new Date();
-
-//     if (eventDate > now) {
-//       // Send confirmation email
-//       try {
-//         await sendEventConfirmationEmail({
-//           fullName,
-//           email,
-//           eventTitle,
-//           eventCategory,
-//           venue: event.venue, // Pass venue
-//           meetingId: event.meetingId, // Pass meeting ID
-//           passcode: event.passcode, // Pass passcode
-//           duration: event.duration, // Pass duration
-//           meetingLink: event.meetingLink, // Pass meeting link
-//           eventDate: event.date, // Pass event date
-//         });
-//       } catch (emailError) {
-//         console.error("Failed to send confirmation email:", emailError);
-//         // Optionally, you can log this error or handle it as needed
-//       }
-//     }
-
-//     // Send success response
-//     res.status(201).json({ message: "Registration successful" });
-//   } catch (error) {
-//     console.error("Error registering for event:", error);
-//     res
-//       .status(500)
-//       .json({ message: "An error occurred while registering for the event" });
-//   }
-// };
 
 const registerEvent = async (req, res) => {
   try {
@@ -612,44 +543,7 @@ const verifyRegistration = async (req, res) => {
     });
   }
 };
-// const getAllRegisteredEvents = async (req, res, next) => {
-//   try {
-//     const startIndex = parseInt(req.query.startIndex, 50) || 0;
-//     const limit = parseInt(req.query.limit, 50) || 50;
-//     const { eventTitle } = req.query;
 
-//     // Create filter object
-//     const filter = {};
-//     if (eventTitle) {
-//       filter.eventTitle = eventTitle;
-//     }
-
-//     // Apply filter to queries
-//     const registrations = await EventRegistration.find(filter)
-//       .sort({ createdAt: -1 }) // Sort by newest first
-//       .skip(startIndex)
-//       .limit(limit);
-
-//     // Count should also respect the filter
-//     const totalRegistrations = await EventRegistration.countDocuments(filter);
-
-//     // Get total registrations for the filtered event
-//     const filteredCount = eventTitle
-//       ? await EventRegistration.countDocuments({ eventTitle })
-//       : totalRegistrations;
-
-//     res.status(200).json({
-//       registrations,
-//       totalRegistrations: filteredCount,
-//       hasMore: registrations.length === limit,
-//     });
-//   } catch (error) {
-//     console.error("Error getting registered events:", error);
-//     res.status(500).json({
-//       message: "An error occurred while fetching registered events",
-//     });
-//   }
-// };
 const getAllRegisteredEvents = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page, 10) || 1; // Default to page 1

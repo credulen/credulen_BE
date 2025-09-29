@@ -8,6 +8,7 @@ const {
   createSolution,
   getAllSolutions,
   getConsultingServiceForms,
+  deleteConsultingServiceForm,
   getAllSolutionLists,
   getSolutionBySlug,
   updateSolution,
@@ -65,6 +66,7 @@ router.put("/updateSolution/:slug", validateFileType, updateSolution);
 router.delete("/deleteSolution/:solutionId", deleteSolution);
 router.get("/getAllSolutions", getAllSolutions);
 router.get("/getConsultingServiceForms", getConsultingServiceForms);
+router.delete("/deleteConsultingServiceForm/:id", deleteConsultingServiceForm);
 router.get("/getAllSolutionLists", getAllSolutionLists);
 router.get("/getSolutionBySlug/:slug", getSolutionBySlug);
 router.post("/submitSolutionForm", submitSolutionForm);

@@ -781,6 +781,21 @@ const getConsultingServiceForms = async (req, res, next) => {
   }
 };
 
+const deleteConsultingServiceForm = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const form = await ConsultingServiceForm.findByIdAndDelete(id);
+    if (!form) {
+      return res.status(404).json({ message: "Form not found" });
+    }
+
+    res.status(200).json({ message: "Form deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Solution Vouchers
 
 // Create Voucher
@@ -949,6 +964,7 @@ module.exports = {
   getNewsletterSubscribers,
   registerForSolution,
   getConsultingServiceForms,
+  deleteConsultingServiceForm,
   // Vouchers
   createVoucher,
   getAllVouchers,

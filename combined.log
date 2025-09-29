@@ -192,3 +192,18 @@
 {"email":"uchepaulpault2@gmail.com","level":"info","message":"Payment success email sent (attempt 1)"}
 {"level":"info","message":"Notifications created successfully","reference":"n3lcsuek3b","userId":"6829f03f0b9796da9c32efe4"}
 {"level":"info","message":"Payment verification completed successfully","reference":"n3lcsuek3b"}
+{"agentEmail":"petersonzoconis1@gmail.com","agentId":"PETERUCHE251","level":"info","message":"Agent validated"}
+{"agentId":"PETERUCHE251","finalAmountInKobo":15000000,"finalAmountInNaira":150000,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":300000,"voucherCode":"CREDNOVPRO25"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"umbji5brey"}
+{"agentId":"PETERUCHE251","email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"umbji5brey"}
+{"agentId":"none","finalAmountInKobo":30000000,"finalAmountInNaira":300000,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":300000,"voucherCode":"none"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"90erqojjtu"}
+{"agentId":"none","email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"90erqojjtu"}
+{"agentId":"none","finalAmountInKobo":30000000,"finalAmountInNaira":300000,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":300000,"voucherCode":"none"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"gezr9ybccg"}
+{"agentId":"none","email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"gezr9ybccg"}
+{"agentId":"none","finalAmountInKobo":30000000,"finalAmountInNaira":300000,"level":"info","message":"Payment initiation amounts","originalAmount":300000,"solutionDiscountedAmount":300000,"voucherCode":"none"}
+{"level":"info","message":"Notifications created successfully during payment initiation","reference":"yyhk8pfjct"}
+{"agentId":"none","email":"petersonzoconis@gmail.com","level":"info","message":"Payment initialized successfully","reference":"yyhk8pfjct"}
+{"level":"error","message":"Get payments error: getaddrinfo ENOTFOUND cluster1-shard-00-00.vd2r0.mongodb.net","stack":"MongoServerSelectionError: getaddrinfo ENOTFOUND cluster1-shard-00-00.vd2r0.mongodb.net\n    at Topology.selectServer (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongodb\\lib\\sdam\\topology.js:303:38)\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processTimers (node:internal/timers:526:9)\n    at async executeOperation (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongodb\\lib\\operations\\execute_operation.js:101:20)\n    at async Collection.countDocuments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongodb\\lib\\collection.js:459:16)\n    at async model.Query.exec (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\node_modules\\mongoose\\lib\\query.js:4401:63)\n    at async getAllPayments (C:\\Users\\peter\\OneDrive\\Documents\\mogaluClients\\Credulen\\server\\controllers\\PaymentController.js:1018:27)"}
+{"level":"error","message":"Get payments error: read ECONNRESET","stack":"Error: read ECONNRESET\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:216:20)"}
